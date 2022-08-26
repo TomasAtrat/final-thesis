@@ -8,7 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.gmail.tomasatrat.app.security.SecurityConfiguration;
+import com.gmail.tomasatrat.ui.views.storefront.security.SecurityConfiguration;
 import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.repositories.UserRepository;
 import com.gmail.tomasatrat.backend.service.UserService;

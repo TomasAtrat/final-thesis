@@ -1,6 +1,6 @@
 package com.gmail.tomasatrat.ui;
 
-import com.gmail.tomasatrat.app.security.SecurityUtils;
+import com.gmail.tomasatrat.ui.views.storefront.security.SecurityUtils;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.BrandExpression;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;

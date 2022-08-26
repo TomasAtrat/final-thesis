@@ -10,12 +10,12 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.gmail.tomasatrat.app.security.SecurityUtils;
+import com.gmail.tomasatrat.ui.views.storefront.security.SecurityUtils;
 import com.gmail.tomasatrat.ui.utils.BakeryConst;
 import com.gmail.tomasatrat.ui.views.storefront.StorefrontView;
 
 @Route
-@PageTitle("Final Thesis")
+@PageTitle("Smartstore")
 @JsModule("./styles/shared-styles.js")
 @Viewport(BakeryConst.VIEWPORT)
 public class LoginView extends LoginOverlay
@@ -24,14 +24,14 @@ public class LoginView extends LoginOverlay
 	public LoginView() {
 		LoginI18n i18n = LoginI18n.createDefault();
 		i18n.setHeader(new LoginI18n.Header());
-		i18n.getHeader().setTitle("SmartStore");
+		i18n.getHeader().setTitle("Smartstore");
 		i18n.getHeader().setDescription(
 			"admin@vaadin.com + admin\n" + "barista@vaadin.com + barista");
 		i18n.setAdditionalInformation(null);
 		i18n.setForm(new LoginI18n.Form());
 		i18n.getForm().setSubmit("Sign in");
 		i18n.getForm().setTitle("Iniciar sesión");
-		i18n.getForm().setUsername("Email");
+		i18n.getForm().setUsername("Nombre de usuario");
 		i18n.getForm().setPassword("Contraseña");
 		setI18n(i18n);
 		setForgotPasswordButtonVisible(false);

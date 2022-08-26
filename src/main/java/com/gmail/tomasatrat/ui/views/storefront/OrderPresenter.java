@@ -11,7 +11,7 @@ import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.spring.annotation.SpringComponent;
-import com.gmail.tomasatrat.app.security.CurrentUser;
+import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.entity.Order;
 import com.gmail.tomasatrat.backend.service.OrderService;
 import com.gmail.tomasatrat.ui.crud.EntityPresenter;

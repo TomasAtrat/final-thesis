@@ -11,7 +11,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
 import com.gmail.tomasatrat.app.HasLogger;
-import com.gmail.tomasatrat.app.security.CurrentUser;
+import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.entity.AbstractEntity;
 import com.gmail.tomasatrat.backend.data.entity.util.EntityUtil;
 import com.gmail.tomasatrat.backend.service.CrudService;
