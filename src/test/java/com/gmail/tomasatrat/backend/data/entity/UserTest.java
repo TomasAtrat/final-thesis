@@ -1,29 +1,69 @@
 package com.gmail.tomasatrat.backend.data.entity;
 
-import org.junit.Assert;
+import com.gmail.tomasatrat.backend.repositories.UserRepository;
+import com.gmail.tomasatrat.backend.service.UserService;
+import lombok.var;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class UserTest {
 
-	@Test
-	public void equalsTest() {
-		User o1 = new User();
-		o1.setPasswordHash("hash");
-		o1.setEmail("abc@vaadin.com");
-		o1.setFirstName("first");
-		o1.setLastName("last");
-		o1.setRole("role");
+    public UserTest(UserService userService){
+        this.userService = userService;
+    }
 
-		User o2 = new User();
-		o2.setPasswordHash("anotherhash");
-		o2.setEmail("abc@vaadin.com");
-		o2.setFirstName("anotherName");
-		o2.setLastName("last");
-		o2.setRole("role");
+    private UserService userService;
 
-		Assert.assertNotEquals(o1, o2);
+    @Test
+    public void userShouldBeCreated() {
+        var initialCount = userService.count();
 
-		o2.setFirstName("first");
-		Assert.assertEquals(o1, o2);
-	}
+        User o1 = new User();
+        o1.setPasswordHash("hash");
+        o1.setEmail("abc@vaadin.co");
+        o1.setFirstName("first");
+        o1.setLastName("last");
+        o1.setRole("admin");
+        o1.setUsername("username");
+
+        userService.createNew(o1);
+
+        var second = userService.count();
+        assertEquals(initialCount + 1, second);
+    }
+
+    @Test
+    public void findByUsernameShouldEquals() {
+        User o1 = new User();
+        o1.setPasswordHash("hash");
+        o1.setEmail("abc@vaadin.co");
+        o1.setFirstName("first");
+        o1.setLastName("last");
+        o1.setRole("admin");
+        o1.setUsername("username");
+
+        userService.createNew(o1);
+
+        System.out.println(userService.count());
+
+        var user2 = userService.findByUsername(o1.getUsername());
+
+        assertEquals(o1, user2);
+
+    }
+
+
 }

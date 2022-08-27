@@ -10,16 +10,15 @@ import com.vaadin.flow.router.ErrorParameter;
 import com.vaadin.flow.router.HasErrorParameter;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.ParentLayout;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.exceptions.AccessDeniedException;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.ui.utils.Constants;
 
 @Tag("access-denied-view")
 @JsModule("./src/views/errors/access-denied-view.js")
 @ParentLayout(MainView.class)
-@PageTitle(BakeryConst.TITLE_ACCESS_DENIED)
+@PageTitle(Constants.TITLE_ACCESS_DENIED)
 public class AccessDeniedView extends PolymerTemplate<TemplateModel> implements HasErrorParameter<AccessDeniedException> {
 
 	@Override

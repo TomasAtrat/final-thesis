@@ -9,7 +9,7 @@ import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.gmail.tomasatrat.testbench.elements.ui.LoginViewElement;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.testbench.IPAddress;
 import com.vaadin.testbench.ScreenshotOnFailureRule;
 import com.vaadin.testbench.TestBenchDriverProxy;
@@ -23,7 +23,7 @@ public abstract class AbstractIT<E extends TestBenchElement> extends ParallelTes
 
 	static {
 		// Let notifications persist longer during tests
-		BakeryConst.NOTIFICATION_DURATION = 10000;
+		Constants.NOTIFICATION_DURATION = 10000;
 	}
 
 	@Rule

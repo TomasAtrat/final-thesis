@@ -41,15 +41,15 @@ import com.gmail.tomasatrat.backend.data.entity.Product;
 import com.gmail.tomasatrat.backend.service.OrderService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.dataproviders.OrdersGridDataProvider;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.ui.utils.Constants;
 import com.gmail.tomasatrat.ui.utils.FormattingUtils;
 import com.gmail.tomasatrat.ui.views.storefront.OrderCard;
 import com.gmail.tomasatrat.ui.views.storefront.beans.OrdersCountDataWithChart;
 
 @Tag("dashboard-view")
 @JsModule("./src/views/dashboard/dashboard-view.js")
-@Route(value = BakeryConst.PAGE_DASHBOARD, layout = MainView.class)
-@PageTitle(BakeryConst.TITLE_DASHBOARD)
+@Route(value = Constants.PAGE_DASHBOARD, layout = MainView.class)
+@PageTitle(Constants.TITLE_DASHBOARD)
 public class DashboardView extends PolymerTemplate<TemplateModel> {
 
 	private static final String[] MONTH_LABELS = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
@@ -95,7 +95,7 @@ public class DashboardView extends PolymerTemplate<TemplateModel> {
 				.withProperty("orderCard", OrderCard::create)
 				.withProperty("header", order -> null)
 				.withEventHandler("cardClick",
-						order -> UI.getCurrent().navigate(BakeryConst.PAGE_STOREFRONT + "/" + order.getId())));
+						order -> UI.getCurrent().navigate(Constants.PAGE_STOREFRONT + "/" + order.getId())));
 
 		grid.setSelectionMode(Grid.SelectionMode.NONE);
 		grid.setDataProvider(orderDataProvider);

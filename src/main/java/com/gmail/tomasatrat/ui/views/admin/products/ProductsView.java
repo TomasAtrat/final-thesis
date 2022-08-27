@@ -8,23 +8,23 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
+import com.gmail.tomasatrat.app.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.Product;
 import com.gmail.tomasatrat.backend.service.ProductService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.crud.AbstractBakeryCrudView;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.ui.utils.Constants;
 import com.gmail.tomasatrat.ui.utils.converters.CurrencyFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 import java.util.Currency;
 
-import static com.gmail.tomasatrat.ui.utils.BakeryConst.PAGE_PRODUCTS;
+import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_PRODUCTS;
 
 @Route(value = PAGE_PRODUCTS, layout = MainView.class)
-@PageTitle(BakeryConst.TITLE_PRODUCTS)
+@PageTitle(Constants.TITLE_PRODUCTS)
 @Secured(Role.ADMIN)
 public class ProductsView extends AbstractBakeryCrudView<Product> {
 
@@ -62,7 +62,7 @@ public class ProductsView extends AbstractBakeryCrudView<Product> {
 		price.setPattern("\\d+(\\.\\d?\\d?)?$");
 		price.setPreventInvalidInput(true);
 
-		String currencySymbol = Currency.getInstance(BakeryConst.APP_LOCALE).getSymbol();
+		String currencySymbol = Currency.getInstance(Constants.APP_LOCALE).getSymbol();
 		price.setPrefixComponent(new Span(currencySymbol));
 
 		return new BinderCrudEditor<>(binder, form);

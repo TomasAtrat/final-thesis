@@ -27,20 +27,20 @@ import com.gmail.tomasatrat.backend.data.entity.Order;
 import com.gmail.tomasatrat.backend.data.entity.util.EntityUtil;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.components.SearchBar;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.ui.utils.Constants;
 import com.gmail.tomasatrat.ui.views.EntityView;
 import com.gmail.tomasatrat.ui.views.orderedit.OrderDetails;
 import com.gmail.tomasatrat.ui.views.orderedit.OrderEditor;
 
-import static com.gmail.tomasatrat.ui.utils.BakeryConst.EDIT_SEGMENT;
-import static com.gmail.tomasatrat.ui.utils.BakeryConst.ORDER_ID;
+import static com.gmail.tomasatrat.ui.utils.Constants.EDIT_SEGMENT;
+import static com.gmail.tomasatrat.ui.utils.Constants.ORDER_ID;
 
 @Tag("storefront-view")
 @JsModule("./src/views/storefront/storefront-view.js")
-@Route(value = BakeryConst.PAGE_STOREFRONT_ORDER_TEMPLATE, layout = MainView.class)
-@RouteAlias(value = BakeryConst.PAGE_STOREFRONT_ORDER_EDIT_TEMPLATE, layout = MainView.class)
-@RouteAlias(value = BakeryConst.PAGE_ROOT, layout = MainView.class)
-@PageTitle(BakeryConst.TITLE_STOREFRONT)
+@Route(value = Constants.PAGE_STOREFRONT_ORDER_TEMPLATE, layout = MainView.class)
+@RouteAlias(value = Constants.PAGE_STOREFRONT_ORDER_EDIT_TEMPLATE, layout = MainView.class)
+@RouteAlias(value = Constants.PAGE_ROOT, layout = MainView.class)
+@PageTitle(Constants.TITLE_STOREFRONT)
 public class StorefrontView extends PolymerTemplate<TemplateModel>
 		implements HasLogger, BeforeEnterObserver, EntityView<Order> {
 
@@ -76,7 +76,7 @@ public class StorefrontView extends PolymerTemplate<TemplateModel>
 				.withProperty("orderCard", OrderCard::create)
 				.withProperty("header", order -> presenter.getHeaderByOrderId(order.getId()))
 				.withEventHandler("cardClick",
-						order -> UI.getCurrent().navigate(BakeryConst.PAGE_STOREFRONT + "/" + order.getId())));
+						order -> UI.getCurrent().navigate(Constants.PAGE_STOREFRONT + "/" + order.getId())));
 
 		getSearchBar().addFilterChangeListener(
 				e -> presenter.filterChanged(getSearchBar().getFilter(), getSearchBar().isCheckboxChecked()));
@@ -113,7 +113,7 @@ public class StorefrontView extends PolymerTemplate<TemplateModel>
 	}
 
 	void navigateToMainView() {
-		getUI().ifPresent(ui -> ui.navigate(BakeryConst.PAGE_STOREFRONT));
+		getUI().ifPresent(ui -> ui.navigate(Constants.PAGE_STOREFRONT));
 	}
 
 	@Override

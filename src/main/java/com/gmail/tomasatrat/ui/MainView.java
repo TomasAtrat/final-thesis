@@ -1,6 +1,6 @@
 package com.gmail.tomasatrat.ui;
 
-import com.gmail.tomasatrat.ui.views.storefront.security.SecurityUtils;
+import com.gmail.tomasatrat.app.security.SecurityUtils;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.BrandExpression;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
@@ -29,7 +29,7 @@ import com.vaadin.flow.server.VaadinServlet;
 
 import java.util.Optional;
 
-import static com.gmail.tomasatrat.ui.utils.BakeryConst.*;
+import static com.gmail.tomasatrat.ui.utils.Constants.*;
 
 @CssImport(value = "./styles/components/charts.css", themeFor = "vaadin-chart", include = "vaadin-chart-default-theme")
 @CssImport(value = "./styles/components/floating-action-button.css", themeFor = "vaadin-button")

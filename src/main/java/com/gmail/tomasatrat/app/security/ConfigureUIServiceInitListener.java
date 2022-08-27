@@ -1,4 +1,4 @@
-package com.gmail.tomasatrat.ui.views.storefront.security;
+package com.gmail.tomasatrat.app.security;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;

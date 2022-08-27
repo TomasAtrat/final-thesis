@@ -4,9 +4,9 @@ import java.util.Locale;
 
 import org.springframework.data.domain.Sort;
 
-public class BakeryConst {
+public class Constants {
 
-	public static final Locale APP_LOCALE = Locale.US;
+	public static final Locale APP_LOCALE = Locale.getDefault();
 
 	public static final String ORDER_ID = "orderID";
 	public static final String EDIT_SEGMENT = "edit";

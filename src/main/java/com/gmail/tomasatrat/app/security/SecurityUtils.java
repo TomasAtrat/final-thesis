@@ -1,4 +1,4 @@
-package com.gmail.tomasatrat.ui.views.storefront.security;
+package com.gmail.tomasatrat.app.security;
 
 import java.util.Arrays;
 import java.util.List;

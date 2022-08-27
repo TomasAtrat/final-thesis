@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
+import com.gmail.tomasatrat.app.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.entity.Order;
 import com.gmail.tomasatrat.backend.service.OrderService;
 import com.gmail.tomasatrat.ui.views.storefront.StorefrontView;

@@ -119,6 +119,7 @@ public class User extends AbstractEntity {
 		}
 		User that = (User) o;
 		return locked == that.locked &&
+				Objects.equals(username, that.username) &&
 				Objects.equals(email, that.email) &&
 				Objects.equals(firstName, that.firstName) &&
 				Objects.equals(lastName, that.lastName) &&

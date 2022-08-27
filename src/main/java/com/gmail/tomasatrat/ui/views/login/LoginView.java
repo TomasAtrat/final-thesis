@@ -10,14 +10,14 @@ import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.gmail.tomasatrat.ui.views.storefront.security.SecurityUtils;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.app.security.SecurityUtils;
+import com.gmail.tomasatrat.ui.utils.Constants;
 import com.gmail.tomasatrat.ui.views.storefront.StorefrontView;
 
 @Route
 @PageTitle("Smartstore")
 @JsModule("./styles/shared-styles.js")
-@Viewport(BakeryConst.VIEWPORT)
+@Viewport(Constants.VIEWPORT)
 public class LoginView extends LoginOverlay
 	implements AfterNavigationObserver, BeforeEnterObserver {
 

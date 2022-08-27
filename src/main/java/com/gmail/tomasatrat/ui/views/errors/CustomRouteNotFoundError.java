@@ -14,10 +14,10 @@ import com.vaadin.flow.router.ParentLayout;
 import com.vaadin.flow.router.RouteNotFoundError;
 import com.vaadin.flow.router.RouterLink;
 import com.gmail.tomasatrat.ui.MainView;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.ui.utils.Constants;
 
 @ParentLayout(MainView.class)
-@PageTitle(BakeryConst.TITLE_NOT_FOUND)
+@PageTitle(Constants.TITLE_NOT_FOUND)
 @JsModule("./styles/shared-styles.js")
 public class CustomRouteNotFoundError extends RouteNotFoundError {
 

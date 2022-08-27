@@ -85,4 +85,7 @@ public class UserService implements FilterableCrudService<User> {
 		return new User();
 	}
 
+	public User findByUsername(String username) {
+		return this.userRepository.findByUsername(username);
+	}
 }

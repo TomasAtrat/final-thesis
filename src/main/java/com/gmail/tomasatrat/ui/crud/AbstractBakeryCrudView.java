@@ -7,7 +7,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
-import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
+import com.gmail.tomasatrat.app.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.entity.AbstractEntity;
 import com.gmail.tomasatrat.backend.data.entity.util.EntityUtil;
 import com.gmail.tomasatrat.backend.service.FilterableCrudService;

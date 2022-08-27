@@ -19,7 +19,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.gmail.tomasatrat.backend.data.entity.Order;
 import com.gmail.tomasatrat.backend.service.OrderService;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import com.gmail.tomasatrat.ui.utils.Constants;
 
 /**
  * A pageable order data provider.
@@ -57,7 +57,7 @@ public class OrdersGridDataProvider extends FilterablePageableDataProvider<Order
 	@Autowired
 	public OrdersGridDataProvider(OrderService orderService) {
 		this.orderService = orderService;
-		setSortOrders(BakeryConst.DEFAULT_SORT_DIRECTION, BakeryConst.ORDER_SORT_FIELDS);
+		setSortOrders(Constants.DEFAULT_SORT_DIRECTION, Constants.ORDER_SORT_FIELDS);
 	}
 
 	private void setSortOrders(Sort.Direction direction, String[] properties) {

@@ -1,11 +1,12 @@
 package com.gmail.tomasatrat.ui.views.admin.users;
 
-import static com.gmail.tomasatrat.ui.utils.BakeryConst.PAGE_USERS;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
+import com.gmail.tomasatrat.app.security.CurrentUser;
+import com.gmail.tomasatrat.backend.data.Role;
+import com.gmail.tomasatrat.backend.data.entity.User;
+import com.gmail.tomasatrat.backend.service.UserService;
+import com.gmail.tomasatrat.ui.MainView;
+import com.gmail.tomasatrat.ui.crud.AbstractBakeryCrudView;
+import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
 import com.vaadin.flow.component.formlayout.FormLayout;
@@ -18,16 +19,14 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
-import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.User;
-import com.gmail.tomasatrat.backend.service.UserService;
-import com.gmail.tomasatrat.ui.MainView;
-import com.gmail.tomasatrat.ui.crud.AbstractBakeryCrudView;
-import com.gmail.tomasatrat.ui.utils.BakeryConst;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_USERS;
 
 @Route(value = PAGE_USERS, layout = MainView.class)
-@PageTitle(BakeryConst.TITLE_USERS)
+@PageTitle(Constants.TITLE_USERS)
 @Secured(Role.ADMIN)
 public class UsersView extends AbstractBakeryCrudView<User> {
 
@@ -49,24 +48,27 @@ public class UsersView extends AbstractBakeryCrudView<User> {
 	}
 
 	private static BinderCrudEditor<User> createForm(PasswordEncoder passwordEncoder) {
-		EmailField email = new EmailField("Email (login)");
+		TextField username = new TextField("Nombre de usuario");
+		username.getElement().setAttribute("colspan", "2");
+		EmailField email = new EmailField("Email");
 		email.getElement().setAttribute("colspan", "2");
-		TextField first = new TextField("First name");
-		TextField last = new TextField("Last name");
-		PasswordField password = new PasswordField("Password");
+		TextField first = new TextField("Nombre");
+		TextField last = new TextField("Apellido");
+		PasswordField password = new PasswordField("Contraseña");
 		password.getElement().setAttribute("colspan", "2");
 		ComboBox<String> role = new ComboBox<>();
 		role.getElement().setAttribute("colspan", "2");
-		role.setLabel("Role");
+		role.setLabel("Rol");
 
-		FormLayout form = new FormLayout(email, first, last, password, role);
+		FormLayout form = new FormLayout(username, email, first, last, password, role);
 
 		BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
 
-		ListDataProvider<String> roleProvider = DataProvider.ofItems(Role.getAllRoles());
+		ListDataProvider<String> roleProvider = DataProvider.ofItems(Role.getBusinessRoles());
 		role.setItemLabelGenerator(s -> s != null ? s : "");
 		role.setDataProvider(roleProvider);
 
+		binder.bind(username, "username");
 		binder.bind(first, "firstName");
 		binder.bind(last, "lastName");
 		binder.bind(email, "email");

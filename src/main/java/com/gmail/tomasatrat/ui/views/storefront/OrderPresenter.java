@@ -11,7 +11,7 @@ import com.vaadin.flow.component.Focusable;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.spring.annotation.SpringComponent;
-import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
+import com.gmail.tomasatrat.app.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.entity.Order;
 import com.gmail.tomasatrat.backend.service.OrderService;
 import com.gmail.tomasatrat.ui.crud.EntityPresenter;
@@ -19,7 +19,7 @@ import com.gmail.tomasatrat.ui.dataproviders.OrdersGridDataProvider;
 import com.gmail.tomasatrat.ui.dataproviders.OrdersGridDataProvider.OrderFilter;
 import com.gmail.tomasatrat.ui.views.storefront.beans.OrderCardHeader;
 
-import static com.gmail.tomasatrat.ui.utils.BakeryConst.PAGE_STOREFRONT_ORDER_EDIT;
+import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_STOREFRONT_ORDER_EDIT;
 
 @SpringComponent
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
