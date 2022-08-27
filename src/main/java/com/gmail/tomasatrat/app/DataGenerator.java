@@ -327,29 +327,30 @@ public class DataGenerator implements HasLogger {
 
 	private User createBaker(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return userRepository.save(
-				createUser("baker@vaadin.com", "Heidi", "Carter", passwordEncoder.encode("baker"), Role.BAKER, false));
+				createUser("baker","baker@vaadin.com", "Heidi", "Carter", passwordEncoder.encode("baker"), Role.BAKER, false));
 	}
 
 	private User createBarista(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-		return userRepository.save(createUser("barista@vaadin.com", "Malin", "Castro",
+		return userRepository.save(createUser("barista", "barista@vaadin.com", "Malin", "Castro",
 				passwordEncoder.encode("barista"), Role.BARISTA, true));
 	}
 
 	private User createAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return userRepository.save(
-				createUser("admin@vaadin.com", "Göran", "Rich", passwordEncoder.encode("admin"), Role.ADMIN, true));
+				createUser("admin","admin@vaadin.com", "Göran", "Rich", passwordEncoder.encode("admin"), Role.ADMIN, true));
 	}
 
 	private void createDeletableUsers(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		userRepository.save(
-				createUser("peter@vaadin.com", "Peter", "Bush", passwordEncoder.encode("peter"), Role.BARISTA, false));
+				createUser("peter","peter@vaadin.com", "Peter", "Bush", passwordEncoder.encode("peter"), Role.BARISTA, false));
 		userRepository
-				.save(createUser("mary@vaadin.com", "Mary", "Ocon", passwordEncoder.encode("mary"), Role.BAKER, true));
+				.save(createUser("mary","mary@vaadin.com", "Mary", "Ocon", passwordEncoder.encode("mary"), Role.BAKER, true));
 	}
 
-	private User createUser(String email, String firstName, String lastName, String passwordHash, String role,
+	private User createUser(String username, String email, String firstName, String lastName, String passwordHash, String role,
 			boolean locked) {
 		User user = new User();
+		user.setUsername(username);
 		user.setEmail(email);
 		user.setFirstName(firstName);
 		user.setLastName(lastName);

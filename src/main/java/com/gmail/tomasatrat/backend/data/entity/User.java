@@ -1,5 +1,8 @@
 package com.gmail.tomasatrat.backend.data.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
@@ -11,8 +14,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity(name="UserInfo")
 public class User extends AbstractEntity {
+
+	@NotEmpty
+	@Size(max = 255)
+	@Column(unique = true)
+	private String username;
 
 	@NotEmpty
 	@Email
