@@ -7,14 +7,13 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
-import com.gmail.tomasatrat.app.security.CurrentUser;
+import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.entity.AbstractEntity;
 import com.gmail.tomasatrat.backend.data.entity.util.EntityUtil;
 import com.gmail.tomasatrat.backend.service.FilterableCrudService;
 import com.gmail.tomasatrat.ui.components.SearchBar;
 import com.gmail.tomasatrat.ui.utils.TemplateUtil;
 import com.gmail.tomasatrat.ui.views.HasNotifications;
-import elemental.json.Json;
 
 import java.util.function.Consumer;
 

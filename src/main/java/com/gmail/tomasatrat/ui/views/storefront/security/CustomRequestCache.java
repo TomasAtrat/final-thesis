@@ -1,4 +1,4 @@
-package com.gmail.tomasatrat.app.security;
+package com.gmail.tomasatrat.ui.views.storefront.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

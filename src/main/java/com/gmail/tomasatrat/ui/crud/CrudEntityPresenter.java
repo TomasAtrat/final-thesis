@@ -1,7 +1,7 @@
 package com.gmail.tomasatrat.ui.crud;
 
 import com.gmail.tomasatrat.app.HasLogger;
-import com.gmail.tomasatrat.app.security.CurrentUser;
+import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.entity.AbstractEntity;
 import com.gmail.tomasatrat.backend.service.CrudService;
 import com.gmail.tomasatrat.backend.service.UserFriendlyDataException;

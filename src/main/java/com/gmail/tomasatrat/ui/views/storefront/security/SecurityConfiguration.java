@@ -1,4 +1,4 @@
-package com.gmail.tomasatrat.app.security;
+package com.gmail.tomasatrat.ui.views.storefront.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -60,7 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public CurrentUser currentUser(UserRepository userRepository) {
 		final String username = SecurityUtils.getUsername();
 		User user =
-			username != null ? userRepository.findByEmailIgnoreCase(username) :
+			username != null ? userRepository.findByUsername(username) :
 				null;
 		return () -> user;
 	}

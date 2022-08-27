@@ -18,7 +18,7 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.gmail.tomasatrat.app.security.CurrentUser;
+import com.gmail.tomasatrat.ui.views.storefront.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.service.UserService;
