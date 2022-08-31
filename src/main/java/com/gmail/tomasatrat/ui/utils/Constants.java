@@ -19,13 +19,14 @@ public class Constants {
 			PAGE_STOREFRONT + "/:" + ORDER_ID + "/" + EDIT_SEGMENT;
 	public static final String PAGE_STOREFRONT_ORDER_EDIT =
 			"storefront/%d/edit";
-	public static final String PAGE_DASHBOARD = "dashboard";
+	public static final String PAGE_HOME = "home";
 	public static final String PAGE_USERS = "users";
-	public static final String PAGE_PRODUCTS = "products";
+	public static final String PAGE_ORDERS = "orders";
 
-	public static final String TITLE_STOREFRONT = "Storefront";
+	public static final String TITLE_HOME = "Home";
 	public static final String TITLE_DASHBOARD = "Dashboard";
 	public static final String TITLE_USERS = "Users";
+	public static final String TITLE_ORDERS = "Pedidos | Smartstore";
 	public static final String TITLE_PRODUCTS = "Products";
 	public static final String TITLE_LOGOUT = "Logout";
 	public static final String TITLE_NOT_FOUND = "Page was not found";

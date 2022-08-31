@@ -1,6 +1,6 @@
 package com.gmail.tomasatrat.ui.components.navigation.tab;
 
-import com.gmail.tomasatrat.ui.views.storefront.StorefrontView;
+import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.UI;
@@ -93,7 +93,7 @@ public class NaviTabs extends Tabs {
 				if (getTabCount() > 0) {
 					setSelectedIndex(getTabCount() - 1);
 				} else {
-					UI.getCurrent().navigate(StorefrontView.class);
+					UI.getCurrent().navigate(HomeView.class);
 				}
 			}
 		}

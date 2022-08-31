@@ -1,5 +1,6 @@
 package com.gmail.tomasatrat.ui.views.login;
 
+import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
@@ -12,7 +13,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.gmail.tomasatrat.app.security.SecurityUtils;
 import com.gmail.tomasatrat.ui.utils.Constants;
-import com.gmail.tomasatrat.ui.views.storefront.StorefrontView;
 
 @Route
 @PageTitle("Smartstore")
@@ -29,7 +29,7 @@ public class LoginView extends LoginOverlay
 			"admin@vaadin.com + admin\n" + "barista@vaadin.com + barista");
 		i18n.setAdditionalInformation(null);
 		i18n.setForm(new LoginI18n.Form());
-		i18n.getForm().setSubmit("Sign in");
+		i18n.getForm().setSubmit("Iniciar sesión");
 		i18n.getForm().setTitle("Iniciar sesión");
 		i18n.getForm().setUsername("Nombre de usuario");
 		i18n.getForm().setPassword("Contraseña");
@@ -41,7 +41,7 @@ public class LoginView extends LoginOverlay
 	@Override
 	public void beforeEnter(BeforeEnterEvent event) {
 		if (SecurityUtils.isUserLoggedIn()) {
-			event.forwardTo(StorefrontView.class);
+			event.forwardTo(HomeView.class);
 		} else {
 			setOpened(true);
 		}

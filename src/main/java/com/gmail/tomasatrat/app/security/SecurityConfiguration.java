@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	public SecurityConfiguration(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
@@ -62,7 +62,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		User user =
 			username != null ? userRepository.findByUsername(username) :
 				null;
-		return () -> user;
+
+		if(!user.isActive()) user = null;
+
+		if(user != null) SecurityUtils.user = user;
+
+		User finalUser = user;
+
+		return () -> finalUser;
 	}
 
 	/**

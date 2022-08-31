@@ -1,3 +1,4 @@
+/*
 package com.gmail.tomasatrat.backend.repositories;
 
 import java.time.LocalDate;
@@ -13,10 +14,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.gmail.tomasatrat.backend.data.OrderState;
-import com.gmail.tomasatrat.backend.data.entity.Order;
 import com.gmail.tomasatrat.backend.data.entity.OrderSummary;
 
-public interface OrderRepository extends JpaRepository<Order, Long> {
+public interface OrderRepository extends JpaRepository<, Long> {
 
 	@EntityGraph(value = Order.ENTITY_GRAPTH_BRIEF, type = EntityGraphType.LOAD)
 	Page<Order> findByDueDateAfter(LocalDate filterDate, Pageable pageable);
@@ -67,3 +67,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Object[]> countPerProduct(OrderState orderState, int year, int month);
 
 }
+*/

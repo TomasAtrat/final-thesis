@@ -6,12 +6,10 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
-import com.gmail.tomasatrat.ui.views.admin.products.ProductsView;
 import com.gmail.tomasatrat.ui.views.admin.users.UsersView;
-import com.gmail.tomasatrat.ui.views.dashboard.DashboardView;
-import com.gmail.tomasatrat.ui.views.storefront.StorefrontView;
+import com.gmail.tomasatrat.ui.views.home.HomeView;
+import com.gmail.tomasatrat.ui.views.orders.OrdersView;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
@@ -20,16 +18,15 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
-import com.vaadin.flow.server.VaadinServlet;
 
 import java.util.Optional;
 
-import static com.gmail.tomasatrat.ui.utils.Constants.*;
+import static com.gmail.tomasatrat.ui.utils.Constants.TITLE_DASHBOARD;
+import static com.gmail.tomasatrat.ui.utils.Constants.TITLE_HOME;
 
 @CssImport(value = "./styles/components/charts.css", themeFor = "vaadin-chart", include = "vaadin-chart-default-theme")
 @CssImport(value = "./styles/components/floating-action-button.css", themeFor = "vaadin-button")
@@ -69,7 +66,6 @@ public class MainView extends AppLayout {
 
         ContextMenu contextMenu = new ContextMenu(avatar);
         contextMenu.setOpenOnClick(true);
-        String contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
         contextMenu.addItem("Cerrar sesión",
                 e -> {
                     UI.getCurrent().getPage().executeJs("window.location.href='/logout'");
@@ -114,7 +110,7 @@ public class MainView extends AppLayout {
     private static NaviMenu createMenu() {
         menu = naviDrawer.getMenu();
 
-        menu.addNaviItem(VaadinIcon.HOME, TITLE_STOREFRONT, StorefrontView.class);
+        menu.addNaviItem(VaadinIcon.HOME, TITLE_HOME, HomeView.class);
 
         NaviItem register = menu.addNaviItem(VaadinIcon.PLUS, "Registro",
                 null);
@@ -125,32 +121,18 @@ public class MainView extends AppLayout {
         NaviItem orders = menu.addNaviItem(VaadinIcon.PACKAGE, "Pedidos",
                 null);
 
-        if (SecurityUtils.isAccessGranted(ProductsView.class))
-            menu.addNaviItem(orders, "Panel de pedidos", ProductsView.class);
+        menu.addNaviItem(orders, "Panel de pedidos", OrdersView.class);
 
         NaviItem stock = menu.addNaviItem(VaadinIcon.STOCK, "Stock",
                 null);
 
-        menu.addNaviItem(stock, "Stock productos", ProductsView.class);
 
-        menu.addNaviItem(VaadinIcon.EDIT, "Tareas", DashboardView.class);
+        menu.addNaviItem(VaadinIcon.EDIT, "Tareas", HomeView.class);
 
-        menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, DashboardView.class);
+        menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, HomeView.class);
 
-        menu.addNaviItem(VaadinIcon.COG, "Configuración", DashboardView.class);
+        menu.addNaviItem(VaadinIcon.COG, "Configuración", HomeView.class);
 
         return menu;
-    }
-
-    private static Anchor createLogoutLink(String contextPath) {
-        final Anchor a = populateLink(new Anchor(), VaadinIcon.ARROW_RIGHT, TITLE_LOGOUT);
-        a.setHref(contextPath + "/logout");
-        return a;
-    }
-
-    private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
-        a.add(icon.create());
-        a.add(title);
-        return a;
     }
 }

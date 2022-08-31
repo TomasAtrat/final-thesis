@@ -47,6 +47,8 @@ public class User extends AbstractEntity {
 	private String role;
 
 	private boolean locked = false;
+	@Column
+	private boolean active = true;
 
 	@PrePersist
 	@PreUpdate
@@ -104,6 +106,19 @@ public class User extends AbstractEntity {
 
 	public void setLocked(boolean locked) {
 		this.locked = locked;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+
+	public String getCompleteName(){
+		return this.firstName + " " + this.lastName;
 	}
 
 	@Override

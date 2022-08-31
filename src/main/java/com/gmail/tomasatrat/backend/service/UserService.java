@@ -14,8 +14,8 @@ import com.gmail.tomasatrat.backend.repositories.UserRepository;
 @Service
 public class UserService implements FilterableCrudService<User> {
 
-	public static final String MODIFY_LOCKED_USER_NOT_PERMITTED = "User has been locked and cannot be modified or deleted";
-	private static final String DELETING_SELF_NOT_PERMITTED = "You cannot delete your own account";
+	public static final String MODIFY_LOCKED_USER_NOT_PERMITTED = "El usuario ha sido bloqueado y no puede ser modificado ni eliminado";
+	private static final String DELETING_SELF_NOT_PERMITTED = "No puedes eliminar tu propia cuenta";
 	private final UserRepository userRepository;
 
 	@Autowired
@@ -87,5 +87,9 @@ public class UserService implements FilterableCrudService<User> {
 
 	public User findByUsername(String username) {
 		return this.userRepository.findByUsername(username);
+	}
+
+	public void toggleStatus(User user) {
+
 	}
 }
