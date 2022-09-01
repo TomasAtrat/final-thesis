@@ -1,4 +1,4 @@
-package com.gmail.tomasatrat.backend.microservices.orders.utils;
+package com.gmail.tomasatrat.backend.common.wrappers;
 
 import com.gmail.tomasatrat.backend.data.OrderInfo;
 import lombok.AllArgsConstructor;

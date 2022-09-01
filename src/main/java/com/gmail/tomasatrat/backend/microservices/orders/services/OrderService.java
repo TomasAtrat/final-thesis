@@ -1,38 +1,42 @@
 package com.gmail.tomasatrat.backend.microservices.orders.services;
 
-import com.gmail.tomasatrat.backend.data.OrderInfo;
-import com.gmail.tomasatrat.backend.microservices.orders.components.OrderClient;
+import com.gmail.tomasatrat.backend.common.ICrudService;
+import com.gmail.tomasatrat.backend.common.IDataEntity;
+import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
+import com.gmail.tomasatrat.backend.repositories.OrderInfoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vaadin.crudui.crud.CrudListener;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class OrderService implements CrudListener<OrderInfo> {
+public class OrderService implements ICrudService {
 
-    private OrderClient orderClient;
+    private OrderInfoRepository orderInfoRepository;
 
-    public OrderService() {
-        orderClient = new OrderClient();
+    @Autowired
+    public OrderService(OrderInfoRepository orderInfoRepository) {
+        this.orderInfoRepository = orderInfoRepository;
     }
 
     @Override
-    public Collection<OrderInfo> findAll() {
-        return orderClient.getOrders();
+    public List<OrderInfo> findAll() {
+        return this.orderInfoRepository.findAll();
     }
 
     @Override
-    public OrderInfo add(OrderInfo orderInfo) {
-        return orderClient.addOrder(orderInfo);
+    public void addItem(IDataEntity item) {
+        this.orderInfoRepository.save((OrderInfo) item);
     }
 
     @Override
-    public OrderInfo update(OrderInfo orderInfo) {
-        return null;
+    public Optional<OrderInfo> findByID(Long id) {
+        return this.orderInfoRepository.findById(id);
     }
 
     @Override
-    public void delete(OrderInfo orderInfo) {
-
+    public void delete(IDataEntity item) {
+        this.orderInfoRepository.delete((OrderInfo) item);
     }
 }

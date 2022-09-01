@@ -1,7 +1,7 @@
 package com.gmail.tomasatrat.backend.microservices.orders.components;
 
 import com.gmail.tomasatrat.backend.data.OrderInfo;
-import com.gmail.tomasatrat.backend.microservices.orders.utils.ListOfOrderWrapper;
+import com.gmail.tomasatrat.backend.common.wrappers.ListOfOrderWrapper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
