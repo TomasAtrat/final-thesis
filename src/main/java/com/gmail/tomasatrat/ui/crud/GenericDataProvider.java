@@ -105,11 +105,11 @@ public class GenericDataProvider<T> extends AbstractBackEndDataProvider<T, CrudF
         service.addItem(item);
     }
 
-    Optional<T> findByID(Long id) {
+    public Optional<T> findByID(Long id) {
         return service.findByID(id);
     }
 
-    void delete(IDataEntity item) {
+    public void delete(IDataEntity item) {
         service.delete(item);
     }
 }
