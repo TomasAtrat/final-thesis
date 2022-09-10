@@ -9,6 +9,7 @@ import com.gmail.tomasatrat.ui.views.HasConfirmation;
 import com.gmail.tomasatrat.ui.views.admin.users.UsersView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.orders.OrdersView;
+import com.gmail.tomasatrat.ui.views.tasks.TasksView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -127,7 +128,7 @@ public class MainView extends AppLayout {
                 null);
 
 
-        menu.addNaviItem(VaadinIcon.EDIT, "Tareas", HomeView.class);
+        menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
 
         menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, HomeView.class);
 
