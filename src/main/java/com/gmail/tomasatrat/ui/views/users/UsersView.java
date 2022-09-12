@@ -1,12 +1,11 @@
-package com.gmail.tomasatrat.ui.views.admin.users;
+package com.gmail.tomasatrat.ui.views.users;
 
 import com.gmail.tomasatrat.app.security.CurrentUser;
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.service.UserService;
 import com.gmail.tomasatrat.ui.MainView;
-import com.gmail.tomasatrat.ui.crud.GenericDataProvider;
+import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.button.Button;

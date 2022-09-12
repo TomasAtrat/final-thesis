@@ -1,4 +1,4 @@
-package com.gmail.tomasatrat.ui.crud;
+package com.gmail.tomasatrat.ui.dataproviders;
 
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
