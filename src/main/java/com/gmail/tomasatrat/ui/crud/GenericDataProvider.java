@@ -101,8 +101,8 @@ public class GenericDataProvider<T> extends AbstractBackEndDataProvider<T, CrudF
         }
     }
 
-    public void persist(IDataEntity item) {
-        service.addItem(item);
+    public IDataEntity persist(IDataEntity item) {
+        return service.addItem(item);
     }
 
     public Optional<T> findByID(Long id) {

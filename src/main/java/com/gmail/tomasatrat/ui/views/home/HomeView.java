@@ -49,7 +49,6 @@ public class HomeView extends VerticalLayout {
         Binder<Branch> binder = new Binder<>(Branch.class);
         binder.bind(description, Branch::getDescription, Branch::setDescription);
 
-
         return new BinderCrudEditor<>(binder, form);
     }
 }

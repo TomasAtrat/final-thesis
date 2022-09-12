@@ -27,8 +27,8 @@ public class BranchService implements ICrudService {
     }
 
     @Override
-    public void addItem(IDataEntity item) {
-        this.branchRepository.save((Branch) item);
+    public IDataEntity addItem(IDataEntity item) {
+        return this.branchRepository.save((Branch) item);
     }
 
     @Override

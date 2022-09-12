@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface ICrudService {
     <T> List<T> findAll();
 
-    void addItem(IDataEntity item);
+    IDataEntity addItem(IDataEntity item);
 
     <T> Optional<T> findByID(Long id);
 

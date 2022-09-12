@@ -28,7 +28,7 @@ public class Barcode {
     @Column(name = "description_4")
     private String description4;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_code")
     private Product productCode;
 
