@@ -1,5 +1,6 @@
 package com.gmail.tomasatrat.backend.data.entity;
 
+import com.gmail.tomasatrat.backend.common.IDataEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity(name="UserInfo")
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements IDataEntity {
 
 	@NotEmpty
 	@Size(max = 255)
