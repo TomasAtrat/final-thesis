@@ -14,6 +14,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.crud.*;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -59,7 +60,7 @@ public class UsersView extends VerticalLayout {
         Button newItemButton = new Button("Nuevo usuario");
         newItemButton.addClickListener(e -> crud.edit(new User(), Crud.EditMode.NEW_ITEM));
 
-        this.add(newItemButton, crud);
+        this.add(new H2("Panel de usuarios"), newItemButton, crud);
     }
 
     private void setupGrid() {

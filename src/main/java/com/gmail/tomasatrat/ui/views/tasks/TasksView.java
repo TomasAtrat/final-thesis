@@ -13,6 +13,7 @@ import com.vaadin.flow.component.crud.*;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -49,11 +50,16 @@ public class TasksView extends VerticalLayout implements HasLogger {
     public TasksView(TaskService taskService) {
         this.taskService = taskService;
 
+        setAlignItems(Alignment.CENTER);
+
         setupCrud();
+
+        Button newItemButton = new Button("Nueva tarea");
+        newItemButton.addClickListener(e -> crud.edit(new Task(), Crud.EditMode.NEW_ITEM));
 
         setupGrid();
 
-        this.add(crud);
+        this.add(new H2("Panel de tareas"), newItemButton, crud);
     }
 
     private void setupGrid() {
@@ -162,11 +168,6 @@ public class TasksView extends VerticalLayout implements HasLogger {
         crud = new Crud<>(Task.class, createOrdersEditor());
 
         setupDataProvider();
-
-        Button newItemButton = new Button("Nueva tarea");
-        newItemButton.addClickListener(e -> crud.edit(new Task(), Crud.EditMode.NEW_ITEM));
-
-        crud.setToolbar(newItemButton);
 
         crud.addThemeVariants(CrudVariant.NO_BORDER);
 

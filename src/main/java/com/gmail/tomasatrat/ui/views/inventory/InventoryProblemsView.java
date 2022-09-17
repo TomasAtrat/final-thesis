@@ -2,11 +2,9 @@ package com.gmail.tomasatrat.ui.views.inventory;
 
 import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.InventoryProblem;
-import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.microservices.inventory.services.InventoryProblemService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.utils.Constants;
-import com.gmail.tomasatrat.ui.utils.converters.DateConverter;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.contextmenu.HasMenuItems;

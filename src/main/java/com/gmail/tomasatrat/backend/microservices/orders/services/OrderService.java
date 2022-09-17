@@ -3,7 +3,6 @@ package com.gmail.tomasatrat.backend.microservices.orders.services;
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 import com.gmail.tomasatrat.backend.common.exceptions.SmartStoreException;
-import com.gmail.tomasatrat.backend.data.Customer;
 import com.gmail.tomasatrat.backend.data.entity.OrderDetail;
 import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.microservices.orders.components.OrderClient;
@@ -61,10 +60,6 @@ public class OrderService implements ICrudService {
     @Override
     public void delete(IDataEntity item) {
         this.orderInfoRepository.delete((OrderInfo) item);
-    }
-
-    public Customer getCustomer(String value) {
-        return null;
     }
 
     public List<OrderDetail> getOrderDetailsByOrder(OrderInfo order) {

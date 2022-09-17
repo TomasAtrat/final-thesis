@@ -23,6 +23,7 @@ import com.vaadin.flow.component.crud.*;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -102,7 +103,7 @@ public class OrdersView extends VerticalLayout implements HasLogger {
         Button newItemButton = new Button("Nuevo pedido");
         newItemButton.addClickListener(e -> crud.edit(new OrderInfo(), Crud.EditMode.NEW_ITEM));
 
-        this.add(newItemButton, crud);
+        this.add(new H2("Panel de pedidos"), newItemButton, crud);
     }
 
     private void setupGrid() {
