@@ -196,7 +196,14 @@ public class OrdersView extends VerticalLayout implements HasLogger {
         dataProvider = new GenericDataProvider(orderService);
 
         crud.setDataProvider(dataProvider);
-        crud.addSaveListener(e -> saveOrder(e.getItem(), dataProvider));
+        crud.addSaveListener(e -> {
+            saveOrder(e.getItem(), dataProvider);
+            document.clear();
+            firstName.clear();
+            lastName.clear();
+            email.clear();
+            phone.clear();
+        });
         crud.addDeleteListener(e -> dataProvider.delete(e.getItem()));
     }
 
@@ -234,8 +241,15 @@ public class OrdersView extends VerticalLayout implements HasLogger {
         if (bothContactMeansAreEmpty())
             throw new SmartStoreException("Se necesita especificar al menos un medio de contacto con el cliente");
 
+        if(expeditionTypeIsBOPISNotAcceptsPartialExpedition())
+            throw new SmartStoreException("Un pedido de tipo BOPIS no puede aceptar expedición parcial");
+
         if (addressIsEmptyWhenExpeditionTypeIsSend())
             throw new SmartStoreException("Se necesita especificar una dirección cuando el tipo de expedición es Envía");
+    }
+
+    private boolean expeditionTypeIsBOPISNotAcceptsPartialExpedition() {
+        return expeditionType.getValue().getId() == ExpeditionTypeEnum.BOPIS.getValue() && acceptPartial.getValue();
     }
 
     private boolean addressIsEmptyWhenExpeditionTypeIsSend() {

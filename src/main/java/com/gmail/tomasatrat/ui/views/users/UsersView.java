@@ -47,8 +47,7 @@ public class UsersView extends VerticalLayout {
     private Grid<User> grid;
 
     @Autowired
-    public UsersView(UserService service, CurrentUser currentUser, PasswordEncoder passwordEncoder) {
-        /*super(User.class, service, new Grid<>(), createForm(passwordEncoder), currentUser);*/
+    public UsersView(UserService service, PasswordEncoder passwordEncoder) {
         userService = service;
         this.passwordEncoder = passwordEncoder;
         setAlignItems(Alignment.CENTER);
@@ -57,7 +56,7 @@ public class UsersView extends VerticalLayout {
 
         setupCrud();
 
-        Button newItemButton = new Button("Nuevo pedido");
+        Button newItemButton = new Button("Nuevo usuario");
         newItemButton.addClickListener(e -> crud.edit(new User(), Crud.EditMode.NEW_ITEM));
 
         this.add(newItemButton, crud);
@@ -82,7 +81,9 @@ public class UsersView extends VerticalLayout {
             dialog.setText("¿Estás seguro que quieres realizar esta operación?");
 
             dialog.setCancelable(true);
-            dialog.addCancelListener(event -> dialog.close());
+            dialog.addCancelListener(event -> {
+                dialog.close();
+            });
 
             dialog.setConfirmText("Guardar");
             dialog.addConfirmListener(event -> {

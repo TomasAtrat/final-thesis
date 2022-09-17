@@ -6,6 +6,7 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
+import com.gmail.tomasatrat.ui.views.inventory.InventoryProblemsView;
 import com.gmail.tomasatrat.ui.views.users.UsersView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.orders.OrdersView;
@@ -118,6 +119,16 @@ public class MainView extends AppLayout {
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
             menu.addNaviItem(register, "Usuarios", UsersView.class);
+
+
+        //region Inventory
+
+        NaviItem inventory = menu.addNaviItem(VaadinIcon.CLIPBOARD_TEXT, "Inventario",
+                null);
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
+
+        //endregion
 
         NaviItem orders = menu.addNaviItem(VaadinIcon.PACKAGE, "Pedidos",
                 null);

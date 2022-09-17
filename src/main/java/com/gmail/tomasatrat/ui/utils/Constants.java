@@ -25,10 +25,13 @@ public class Constants {
 
 	public static final String PAGE_TASKS = "tasks";
 
+	public static final String PAGE_INVENTORY_PROBLEMS = "inventory_problems";
+
 	public static final String TITLE_HOME = "Home";
 	public static final String TITLE_DASHBOARD = "Dashboard";
 	public static final String TITLE_USERS = "Users";
 	public static final String TITLE_ORDERS = "Pedidos | Smartstore";
+	public static final String TITLE_INVENTORY_PROBLEMS = "Problemas inventario | Smartstore";
 	public static final String TITLE_TASKS = "Tareas";
 	public static final String TITLE_PRODUCTS = "Products";
 	public static final String TITLE_LOGOUT = "Logout";
