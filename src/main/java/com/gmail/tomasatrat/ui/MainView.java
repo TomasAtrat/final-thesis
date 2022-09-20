@@ -7,6 +7,7 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryProblemsView;
+import com.gmail.tomasatrat.ui.views.readers.ReadersView;
 import com.gmail.tomasatrat.ui.views.users.UsersView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.orders.OrdersView;
