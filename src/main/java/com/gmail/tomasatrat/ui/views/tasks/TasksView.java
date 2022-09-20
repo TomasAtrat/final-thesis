@@ -45,6 +45,8 @@ public class TasksView extends VerticalLayout implements HasLogger {
     private Select<String> priority;
     private Select<String> state;
 
+    private Select<String> userId;
+
     @Autowired
     public TasksView(TaskService taskService) {
         this.taskService = taskService;
@@ -65,6 +67,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
             "priority",
             "state",
             "category",
+            //"user_id",
             "vaadin-crud-edit-column"
         );
 
@@ -81,6 +84,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
             grid.getColumnByKey("priority"),
             grid.getColumnByKey("state"),
             grid.getColumnByKey("category"),
+            //grid.getColumnByKey("user_id"),
             grid.getColumnByKey("vaadin-crud-edit-column")
         );
 
@@ -89,6 +93,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
         grid.getColumnByKey("category").setHeader("Categoría");
         grid.getColumnByKey("priority").setHeader("Prioridad");
         grid.getColumnByKey("state").setHeader("Estado");
+        //grid.getColumnByKey("user_id").setHeader("Usuario");
     }
 
     private void setupDataProvider() {
@@ -228,7 +233,12 @@ public class TasksView extends VerticalLayout implements HasLogger {
         priority.setLabel("Prioridad");
         state = new Select<>("COMPLETADA", "EN PROCESO", "CANCELADA", "PENDIENTE");
         state.setLabel("Estado");
-        state.setHeightFull();
+        //userId = new Select<>();
+        //List<String> users = taskService.findAllUsers();
+        //for (int i = 0; i < users.size(); i++) {
+        //    userId.add(users.get(i));
+        //}
+        //userId.setLabel("Usuario asignado");
     }
 
 }

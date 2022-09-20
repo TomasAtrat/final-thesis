@@ -23,9 +23,9 @@ public class Task extends AbstractEntity implements IDataEntity {
     @Column(name = "state")
     private String state;
 
-    //@ManyToOne(fetch = FetchType.EAGER)
-    //@JoinColumn(name = "user_id")
-    //private User userId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User userId;
 
     public String getDescription() {
         return description;
@@ -65,5 +65,13 @@ public class Task extends AbstractEntity implements IDataEntity {
 
     public String getState() {
         return state;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 }

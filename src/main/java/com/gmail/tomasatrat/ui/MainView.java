@@ -6,6 +6,7 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
+import com.gmail.tomasatrat.ui.views.admin.readers.ReadersView;
 import com.gmail.tomasatrat.ui.views.admin.users.UsersView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.orders.OrdersView;
@@ -129,6 +130,9 @@ public class MainView extends AppLayout {
 
 
         menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
+
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
 
         menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, HomeView.class);
 
