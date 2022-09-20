@@ -88,7 +88,8 @@ public class UsersView extends VerticalLayout {
 
             dialog.setConfirmText("Guardar");
             dialog.addConfirmListener(event -> {
-                userService.toggleStatus(user);
+                userService.toggleStatus(user, toggle.getValue());
+                grid.setItems(userService.findAll());
                 dialog.close();
                 Notification.show("Se han guardado los cambios", 5000, Notification.Position.BOTTOM_CENTER);
             });

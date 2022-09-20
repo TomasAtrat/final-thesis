@@ -2,13 +2,16 @@ package com.gmail.tomasatrat.ui.views.tasks;
 
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.entity.Task;
+import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.microservices.tasks.services.TaskService;
+import com.gmail.tomasatrat.backend.service.UserService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.crud.*;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -37,6 +40,8 @@ public class TasksView extends VerticalLayout implements HasLogger {
 
     private final TaskService taskService;
 
+    private final UserService userService;
+
     private Grid<Task> grid;
     private Crud<Task> crud;
 
@@ -46,55 +51,36 @@ public class TasksView extends VerticalLayout implements HasLogger {
     private Select<String> priority;
     private Select<String> state;
 
+    private ComboBox<User> users;
+
     @Autowired
-    public TasksView(TaskService taskService) {
+    public TasksView(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
 
         setAlignItems(Alignment.CENTER);
 
-        setupCrud();
+        setupGrid();
 
         Button newItemButton = new Button("Nueva tarea");
         newItemButton.addClickListener(e -> crud.edit(new Task(), Crud.EditMode.NEW_ITEM));
 
-        setupGrid();
+        setupCrud();
+
+        this.add(crud);
 
         this.add(new H2("Panel de tareas"), newItemButton, crud);
     }
 
     private void setupGrid() {
-        Grid<Task> grid = crud.getGrid();
-
-        List<String> visibleColumns = Arrays.asList(
-            "title",
-            "description",
-            "priority",
-            "state",
-            "category",
-            "vaadin-crud-edit-column"
-        );
-
-        grid.getColumns().forEach(column -> {
-            String key = column.getKey();
-            if (!visibleColumns.contains(key)) {
-                grid.removeColumn(column);
-            }
-        });
-
-        grid.setColumnOrder(
-            grid.getColumnByKey("title"),
-            grid.getColumnByKey("description"),
-            grid.getColumnByKey("priority"),
-            grid.getColumnByKey("state"),
-            grid.getColumnByKey("category"),
-            grid.getColumnByKey("vaadin-crud-edit-column")
-        );
-
-        grid.getColumnByKey("title").setHeader("Título");
-        grid.getColumnByKey("description").setHeader("Descripción");
-        grid.getColumnByKey("category").setHeader("Categoría");
-        grid.getColumnByKey("priority").setHeader("Prioridad");
-        grid.getColumnByKey("state").setHeader("Estado");
+        grid = new Grid<Task>();
+        grid.setColumnReorderingAllowed(true);
+        grid.addColumn(Task::getTitle).setHeader("Titulo").setAutoWidth(true).setResizable(true);
+        grid.addColumn(Task::getDescription).setHeader("Descripción").setAutoWidth(true).setResizable(true);
+        grid.addColumn(Task::getPriority).setHeader("Prioridad").setAutoWidth(true).setResizable(true);
+        grid.addColumn(Task::getState).setHeader("Estado").setAutoWidth(true).setResizable(true);
+        grid.addColumn(Task::getCategory).setHeader("Categoría").setAutoWidth(true).setResizable(true);
+        grid.addColumn(task -> task.getUserId().getUsername()).setHeader("Usuario").setAutoWidth(true).setResizable(true);
     }
 
     private void setupDataProvider() {
@@ -165,7 +151,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
     }
 
     private void setupCrud() {
-        crud = new Crud<>(Task.class, createOrdersEditor());
+        crud = new Crud<>(Task.class, grid, createOrdersEditor());
 
         setupDataProvider();
 
@@ -202,7 +188,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
 
         FormLayout form = new FormLayout();
 
-        form.add(title, description, category, priority, state);
+        form.add(title, description, category, priority, state, users);
 
         Binder<Task> binder = getBinder();
 
@@ -216,6 +202,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
         binder.bind(category, Task::getCategory, Task::setCategory);
         binder.bind(priority, Task::getPriority, Task::setPriority);
         binder.bind(state, Task::getState, Task::setState);
+        binder.bind(users, Task::getUserId, Task::setUserId);
 
         return binder;
     }
@@ -229,7 +216,10 @@ public class TasksView extends VerticalLayout implements HasLogger {
         priority.setLabel("Prioridad");
         state = new Select<>("COMPLETADA", "EN PROCESO", "CANCELADA", "PENDIENTE");
         state.setLabel("Estado");
-        state.setHeightFull();
+        users = new ComboBox<>("Usuario");
+        users.setItems(userService.findAllByActiveIsTrue());
+        users.setItemLabelGenerator(user ->
+                user.getId() + " - " + user.getUsername());
     }
 
 }

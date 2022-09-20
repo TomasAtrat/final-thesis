@@ -141,6 +141,9 @@ public class MainView extends AppLayout {
 
         menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
 
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
+
         menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, HomeView.class);
 
         menu.addNaviItem(VaadinIcon.COG, "Configuración", HomeView.class);
