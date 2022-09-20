@@ -1,7 +1,10 @@
 package com.gmail.tomasatrat.backend.service;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.gmail.tomasatrat.backend.common.ICrudService;
+import com.gmail.tomasatrat.backend.common.IDataEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +15,7 @@ import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.repositories.UserRepository;
 
 @Service
-public class UserService implements FilterableCrudService<User> {
+public class UserService implements FilterableCrudService<User>, ICrudService {
 
 	public static final String MODIFY_LOCKED_USER_NOT_PERMITTED = "El usuario ha sido bloqueado y no puede ser modificado ni eliminado";
 	private static final String DELETING_SELF_NOT_PERMITTED = "No puedes eliminar tu propia cuenta";
@@ -90,6 +93,27 @@ public class UserService implements FilterableCrudService<User> {
 	}
 
 	public void toggleStatus(User user) {
+		user.setActive(!user.isActive());
+		this.userRepository.save(user);
+	}
 
+	@Override
+	public List<User> findAll() {
+		return this.userRepository.findAll();
+	}
+
+	@Override
+	public IDataEntity addItem(IDataEntity item) {
+		return this.userRepository.save((User) item);
+	}
+
+	@Override
+	public Optional<User> findByID(Long id) {
+		return this.userRepository.findById(id);
+	}
+
+	@Override
+	public void delete(IDataEntity item) {
+		this.userRepository.delete((User) item);
 	}
 }

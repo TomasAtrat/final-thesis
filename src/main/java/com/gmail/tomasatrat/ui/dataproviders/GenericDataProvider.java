@@ -1,4 +1,4 @@
-package com.gmail.tomasatrat.ui.crud;
+package com.gmail.tomasatrat.ui.dataproviders;
 
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
@@ -101,8 +101,8 @@ public class GenericDataProvider<T> extends AbstractBackEndDataProvider<T, CrudF
         }
     }
 
-    public void persist(IDataEntity item) {
-        service.addItem(item);
+    public IDataEntity persist(IDataEntity item) {
+        return service.addItem(item);
     }
 
     public Optional<T> findByID(Long id) {

@@ -4,7 +4,7 @@ import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.entity.Task;
 import com.gmail.tomasatrat.backend.microservices.tasks.services.TaskService;
 import com.gmail.tomasatrat.ui.MainView;
-import com.gmail.tomasatrat.ui.crud.GenericDataProvider;
+import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;

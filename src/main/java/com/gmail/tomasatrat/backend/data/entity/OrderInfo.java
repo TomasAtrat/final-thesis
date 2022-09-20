@@ -4,16 +4,17 @@ import com.gmail.tomasatrat.backend.common.IDataEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "order_info")
 public class OrderInfo extends AbstractEntity implements IDataEntity {
 
     @Column(name = "delivery_date")
-    private LocalDate deliveryDate;
+    private Date deliveryDate;
 
     @Column(name = "addrow_date")
-    private LocalDate addrowDate;
+    private Date addrowDate;
 
     @Column(name = "address")
     private String address;
@@ -45,19 +46,19 @@ public class OrderInfo extends AbstractEntity implements IDataEntity {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    public LocalDate getDeliveryDate() {
+    public Date getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(LocalDate deliveryDate) {
+    public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
-    public LocalDate getAddrowDate() {
+    public Date getAddrowDate() {
         return addrowDate;
     }
 
-    public void setAddrowDate(LocalDate addrowDate) {
+    public void setAddrowDate(Date addrowDate) {
         this.addrowDate = addrowDate;
     }
 

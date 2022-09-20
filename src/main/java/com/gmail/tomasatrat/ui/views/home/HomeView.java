@@ -4,9 +4,7 @@ import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.Branch;
 import com.gmail.tomasatrat.backend.service.BranchService;
 import com.gmail.tomasatrat.ui.MainView;
-import com.gmail.tomasatrat.ui.crud.CrudEntityDataProvider;
-import com.gmail.tomasatrat.ui.crud.GenericDataProvider;
-import com.gmail.tomasatrat.ui.crud.PersonDataProvider;
+import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.flow.component.crud.BinderCrudEditor;
 import com.vaadin.flow.component.crud.Crud;
@@ -48,7 +46,6 @@ public class HomeView extends VerticalLayout {
 
         Binder<Branch> binder = new Binder<>(Branch.class);
         binder.bind(description, Branch::getDescription, Branch::setDescription);
-
 
         return new BinderCrudEditor<>(binder, form);
     }

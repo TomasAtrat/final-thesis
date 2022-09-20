@@ -38,8 +38,8 @@ public class TaskService implements ICrudService {
     }
 
     @Override
-    public void addItem(IDataEntity item) {
-        this.taskRepository.save((Task) item);
+    public IDataEntity addItem(IDataEntity item) {
+        return this.taskRepository.save((Task) item);
     }
 
     @Override

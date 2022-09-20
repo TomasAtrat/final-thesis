@@ -16,9 +16,13 @@ public class OrderDetail {
     @Column(name = "prepared_quantity")
     private Integer preparedQuantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "barcode")
     private Barcode barcode;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_info_id")
+    private OrderInfo orderInfo;
 
     public Long getId() {
         return id;
@@ -50,6 +54,14 @@ public class OrderDetail {
 
     public void setBarcode(Barcode barcode) {
         this.barcode = barcode;
+    }
+
+    public OrderInfo getOrderInfo() {
+        return orderInfo;
+    }
+
+    public void setOrderInfo(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
     }
 
 }
