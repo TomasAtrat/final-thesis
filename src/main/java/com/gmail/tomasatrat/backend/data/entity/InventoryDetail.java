@@ -20,8 +20,8 @@ public class InventoryDetail {
     private Integer acceptedQty;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_code")
-    private Product productCode;
+    @JoinColumn(name = "barcode")
+    private Barcode barcode;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "inventory_id")
@@ -59,12 +59,12 @@ public class InventoryDetail {
         this.acceptedQty = acceptedQty;
     }
 
-    public Product getProductCode() {
-        return productCode;
+    public Barcode getBarcode() {
+        return barcode;
     }
 
-    public void setProductCode(Product productCode) {
-        this.productCode = productCode;
+    public void setBarcode(Barcode barcode) {
+        this.barcode = barcode;
     }
 
     public Inventory getInventory() {
