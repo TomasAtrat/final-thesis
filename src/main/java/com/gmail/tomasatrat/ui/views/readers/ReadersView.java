@@ -1,17 +1,22 @@
-package com.gmail.tomasatrat.ui.views.admin.readers;
+package com.gmail.tomasatrat.ui.views.readers;
 
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.Role;
+import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.data.entity.Reader;
 import com.gmail.tomasatrat.backend.data.entity.Task;
+import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.microservices.reader.services.ReaderService;
 import com.gmail.tomasatrat.backend.microservices.tasks.services.TaskService;
 import com.gmail.tomasatrat.ui.MainView;
-import com.gmail.tomasatrat.ui.crud.GenericDataProvider;
+import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
+import com.gmail.tomasatrat.ui.utils.converters.DateConverter;
+import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.crud.*;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -25,8 +30,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.function.SerializableBiConsumer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import lombok.var;
 import org.springframework.security.access.annotation.Secured;
 
 import java.util.Arrays;
@@ -40,7 +48,7 @@ import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_READER;
 @Secured(Role.ADMIN)
 public class ReadersView extends VerticalLayout implements HasLogger {
 
-    private final ReaderService readerService;
+    private ReaderService readerService = null;
 
     private TextField name;
     private TextField alias;
@@ -48,69 +56,30 @@ public class ReadersView extends VerticalLayout implements HasLogger {
     private Select<Float> RSSI;
 
     private Crud<Reader> crud;
+    private Grid<Reader> grid;
 
     public ReadersView(ReaderService readerService) {
         this.readerService = readerService;
 
-        setupCrud();
-
         setupGrid();
+
+        setupCrud();
 
         this.add(crud);
     }
 
     private void setupGrid() {
-        Grid<Reader> grid = crud.getGrid();
-
-        List<String> visibleColumns = Arrays.asList(
-                "name",
-                "alias",
-                "flActive",
-                "antenaPower",
-                "RSSI",
-                "vaadin-crud-edit-column"
-        );
-
-        grid.getColumns().forEach(column -> {
-            String key = column.getKey();
-            if (!visibleColumns.contains(key)) {
-                grid.removeColumn(column);
-            }
-        });
-
-        grid.setColumnOrder(
-                grid.getColumnByKey("name"),
-                grid.getColumnByKey("alias"),
-                grid.getColumnByKey("antenaPower"),
-                grid.getColumnByKey("RSSI"),
-                grid.getColumnByKey("flActive"),
-                grid.getColumnByKey("vaadin-crud-edit-column")
-        );
-
-        grid.getColumnByKey("name").setHeader("Nombre");
-        grid.getColumnByKey("alias").setHeader("Alias");
-        grid.getColumnByKey("antenaPower").setHeader("Poder de antena");
-        grid.getColumnByKey("RSSI").setHeader("RSSI");
-        grid.removeColumnByKey("flActive");
-
-        grid.addComponentColumn((item) -> {
-                    Icon icon;
-                    if(item.getFlActive()){ // change this to your own getter for the boolean value
-                        icon = VaadinIcon.CHECK.create();
-                        icon.setColor("green");
-                    } else {
-                        icon = VaadinIcon.CLOSE.create();
-                        icon.setColor("red");
-                    }
-                    return icon;
-                })
-                .setKey("flActive")
-                .setHeader("Activo") // set your own column key ;)
-                .setComparator(Comparator.comparing(Reader::getFlActive)); // change this to your own getter for the boolean value
+        grid = new Grid<Reader>();
+        grid.setColumnReorderingAllowed(true);
+        grid.addColumn(Reader::getName).setHeader("Nombre").setAutoWidth(true).setResizable(true);
+        grid.addColumn(Reader::getAlias).setHeader("Alias").setAutoWidth(true).setResizable(true);
+        grid.addColumn(Reader::getAntenaPower).setHeader("Potencia de antena").setAutoWidth(true).setResizable(true);
+        grid.addColumn(Reader::getRSSI).setHeader("RSSI").setAutoWidth(true).setResizable(true);
+        grid.addColumn(createSwitchComponentRenderer()).setHeader("Activo");
     }
 
     private void setupCrud() {
-        crud = new Crud<>(Reader.class, createOrdersEditor());
+        crud = new Crud<>(Reader.class, grid, createOrdersEditor());
 
         setupDataProvider();
 
@@ -230,7 +199,7 @@ public class ReadersView extends VerticalLayout implements HasLogger {
 
         notification.add(layout);
         notification.setPosition(Notification.Position.BOTTOM_CENTER);
-        notification.setDuration(80000);
+        notification.setDuration(4000);
         notification.open();
     }
 
@@ -256,4 +225,31 @@ public class ReadersView extends VerticalLayout implements HasLogger {
 
         return spanishI18n;
     }
+
+    public ComponentRenderer createSwitchComponentRenderer() {
+        return new ComponentRenderer<>(ToggleButton::new, statusComponentUpdater);
+    }
+
+    public SerializableBiConsumer<ToggleButton, Reader> statusComponentUpdater = (toggle, reader) -> {
+        toggle.setValue(reader.getFlActive());
+        toggle.addValueChangeListener(i -> {
+            ConfirmDialog dialog = new ConfirmDialog();
+            var header = reader.getFlActive() ? "¿Quieres desactivar el lector?" : "¿Quieres activar el lector?";
+            dialog.setHeader(header);
+            dialog.setText("¿Estás seguro que quieres realizar esta operación?");
+
+            dialog.setCancelable(true);
+            dialog.addCancelListener(event -> dialog.close());
+
+            dialog.setConfirmText("Guardar");
+            dialog.addConfirmListener(event -> {
+                readerService.toggleStatus(reader);
+                grid.setItems(readerService.findAll());
+                dialog.close();
+                Notification.show("Se han guardado los cambios", 5000, Notification.Position.BOTTOM_CENTER);
+            });
+
+            dialog.open();
+        });
+    };
 }

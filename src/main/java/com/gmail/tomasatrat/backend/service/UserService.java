@@ -92,14 +92,18 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 		return this.userRepository.findByUsername(username);
 	}
 
-	public void toggleStatus(User user) {
-		user.setActive(!user.isActive());
+	public void toggleStatus(User user, Boolean value) {
+		user.setActive(value);
 		this.userRepository.save(user);
 	}
 
 	@Override
 	public List<User> findAll() {
 		return this.userRepository.findAll();
+	}
+
+	public List<User> findAllByActiveIsTrue() {
+		return this.userRepository.findAllByActiveIsTrue();
 	}
 
 	@Override

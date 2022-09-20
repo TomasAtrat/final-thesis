@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.gmail.tomasatrat.backend.data.entity.User;
 
+import java.util.List;
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findByEmailIgnoreCase(String email);
@@ -19,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	long countByEmailLikeIgnoreCaseOrFirstNameLikeIgnoreCaseOrLastNameLikeIgnoreCaseOrRoleLikeIgnoreCase(
 			String emailLike, String firstNameLike, String lastNameLike, String roleLike);
+
+	List<User> findAllByActiveIsTrue();
 }
