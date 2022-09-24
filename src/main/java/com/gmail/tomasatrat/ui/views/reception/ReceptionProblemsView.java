@@ -1,8 +1,8 @@
-package com.gmail.tomasatrat.ui.views.inventory;
+package com.gmail.tomasatrat.ui.views.reception;
 
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.InventoryProblem;
-import com.gmail.tomasatrat.backend.microservices.inventory.services.InventoryProblemService;
+import com.gmail.tomasatrat.backend.data.entity.ReceptionProblem;
+import com.gmail.tomasatrat.backend.microservices.reception.services.ReceptionService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.flow.component.Text;
@@ -25,19 +25,18 @@ import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
-import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_INVENTORY_PROBLEMS;
+import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_RECEPTION_PROBLEMS;
 
-@Route(value = PAGE_INVENTORY_PROBLEMS, layout = MainView.class)
-@PageTitle(Constants.TITLE_INVENTORY_PROBLEMS)
-@Secured(Role.ADMIN)
-public class InventoryProblemsView extends VerticalLayout {
-
-    private Grid<InventoryProblem> grid;
-    private InventoryProblemService inventoryProblemService;
+@Route(value = PAGE_RECEPTION_PROBLEMS, layout = MainView.class)
+@PageTitle(Constants.TITLE_RECEPTION_PROBLEMS)
+@Secured( Role.ADMIN)
+public class ReceptionProblemsView extends VerticalLayout {
+    private Grid<ReceptionProblem> grid;
+    private ReceptionService receptionService;
 
     @Autowired
-    public InventoryProblemsView(InventoryProblemService inventoryProblemService){
-        this.inventoryProblemService = inventoryProblemService;
+    public ReceptionProblemsView(ReceptionService receptionService){
+        this.receptionService = receptionService;
 
         setAlignItems(Alignment.CENTER);
 
@@ -49,20 +48,20 @@ public class InventoryProblemsView extends VerticalLayout {
     private void setupGrid() {
         grid = new Grid<>();
 
-        grid.setItems(this.inventoryProblemService.getNotAcceptedProblems());
+        grid.setItems(this.receptionService.getNotAcceptedProblems());
 
         grid.setColumnReorderingAllowed(true);
         grid.addColumn(createActionsMenuBar()).setHeader("").setAutoWidth(true);
-        grid.addColumn(InventoryProblem::getId).setHeader("ID").setAutoWidth(true).setResizable(true);
-        grid.addColumn(InventoryProblem::getProductCode).setHeader("Producto").setAutoWidth(true).setResizable(true);
-        grid.addColumn(InventoryProblem::getDifference).setHeader("Diferencia").setAutoWidth(true).setResizable(true);
-        grid.addColumn(InventoryProblem::getDescription).setHeader("Desc. dif.").setAutoWidth(true).setResizable(true);
-        grid.addColumn(problem -> problem.getDetail().getSupposedQty()).setHeader("Cant. teórica").setAutoWidth(true).setResizable(true);
-        grid.addColumn(problem -> problem.getDetail().getReadQty()).setHeader("Cant. leída").setAutoWidth(true).setResizable(true);
-        grid.addColumn(problem -> problem.getDetail().getInventory().getId()).setHeader("Inventario").setAutoWidth(true).setResizable(true);
+        grid.addColumn(ReceptionProblem::getId).setHeader("ID").setAutoWidth(true).setResizable(true);
+        grid.addColumn(ReceptionProblem::getProductCode).setHeader("Producto").setAutoWidth(true).setResizable(true);
+        grid.addColumn(ReceptionProblem::getDifference).setHeader("Diferencia").setAutoWidth(true).setResizable(true);
+        grid.addColumn(ReceptionProblem::getDescription).setHeader("Desc. dif.").setAutoWidth(true).setResizable(true);
+        grid.addColumn(problem -> problem.getDetail().getScheduledQty()).setHeader("Cant. agendada").setAutoWidth(true).setResizable(true);
+        grid.addColumn(problem -> problem.getDetail().getReceivedQty()).setHeader("Cant. recibida").setAutoWidth(true).setResizable(true);
+        grid.addColumn(problem -> problem.getDetail().getReceptionList().getId()).setHeader("Recepción").setAutoWidth(true).setResizable(true);
     }
 
-    private final SerializableBiConsumer<MenuBar, InventoryProblem> actionsMenuBar = (menuBar, problem) -> {
+    private final SerializableBiConsumer<MenuBar, ReceptionProblem> actionsMenuBar = (menuBar, problem) -> {
         menuBar.addThemeVariants(MenuBarVariant.LUMO_ICON);
 
         MenuItem actions = createIconItem(menuBar, VaadinIcon.BULLETS, null, null);
@@ -94,12 +93,12 @@ public class InventoryProblemsView extends VerticalLayout {
         });
     };
 
-    private void acceptDifference(InventoryProblem problem) {
-        this.inventoryProblemService.acceptDifference(problem);
+    private void acceptDifference(ReceptionProblem problem) {
+        this.receptionService.acceptDifference(problem);
 
-        this.grid.setItems(this.inventoryProblemService.getNotAcceptedProblems());
+        this.grid.setItems(this.receptionService.getNotAcceptedProblems());
 
-        this.inventoryProblemService.updateInventoryDetailAcceptedQty(problem.getDetail());
+        this.receptionService.updateReceptionDetailAcceptedQty(problem.getDetail());
     }
 
     private static MenuItem createIconItem(HasMenuItems menu, VaadinIcon iconName, String label, String ariaLabel) {
@@ -127,7 +126,7 @@ public class InventoryProblemsView extends VerticalLayout {
         return item;
     }
 
-    private ComponentRenderer<MenuBar, InventoryProblem> createActionsMenuBar() {
+    private ComponentRenderer<MenuBar, ReceptionProblem> createActionsMenuBar() {
         return new ComponentRenderer<>(MenuBar::new, actionsMenuBar);
     }
 

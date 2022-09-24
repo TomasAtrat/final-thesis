@@ -8,6 +8,7 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryProblemsView;
 import com.gmail.tomasatrat.ui.views.readers.ReadersView;
+import com.gmail.tomasatrat.ui.views.reception.ReceptionProblemsView;
 import com.gmail.tomasatrat.ui.views.users.UsersView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.orders.OrdersView;
@@ -115,21 +116,34 @@ public class MainView extends AppLayout {
 
         menu.addNaviItem(VaadinIcon.HOME, TITLE_HOME, HomeView.class);
 
+        //region Register
+
         NaviItem register = menu.addNaviItem(VaadinIcon.PLUS, "Registro",
                 null);
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
             menu.addNaviItem(register, "Usuarios", UsersView.class);
 
+        //endregion
+
+        //region Reception
+
+        NaviItem reception = menu.addNaviItem(VaadinIcon.CLIPBOARD_CHECK, "Recepción",
+                null);
+        if (SecurityUtils.isAccessGranted(ReceptionProblemsView.class))
+            menu.addNaviItem(reception, "Problemas sin aceptar", ReceptionProblemsView.class);
+
+        //endregion
 
         //region Inventory
 
         NaviItem inventory = menu.addNaviItem(VaadinIcon.CLIPBOARD_TEXT, "Inventario",
                 null);
-        if (SecurityUtils.isAccessGranted(UsersView.class))
+        if (SecurityUtils.isAccessGranted(InventoryProblemsView.class))
             menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
 
         //endregion
+
 
         NaviItem orders = menu.addNaviItem(VaadinIcon.PACKAGE, "Pedidos",
                 null);
