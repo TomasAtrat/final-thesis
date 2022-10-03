@@ -2,9 +2,7 @@ package com.gmail.tomasatrat.backend.data.entity;
 
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "reader")
@@ -24,6 +22,10 @@ public class Reader extends AbstractEntity implements IDataEntity {
 
     @Column(name = "RSSI")
     private float RSSI;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "module_id")
+    private Module moduleId;
 
     public String getName() {
         return name;
@@ -63,5 +65,13 @@ public class Reader extends AbstractEntity implements IDataEntity {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public void setModuleId(Module moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public Module getModuleId() {
+        return moduleId;
     }
 }

@@ -19,11 +19,11 @@ public class InventoryDetail {
     @Column(name = "accepted_qty")
     private Integer acceptedQty;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "barcode")
     private Barcode barcode;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "inventory_id")
     private Inventory inventory;
 

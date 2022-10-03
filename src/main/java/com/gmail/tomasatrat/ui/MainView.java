@@ -7,7 +7,9 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryProblemsView;
+import com.gmail.tomasatrat.ui.views.inventory.InventoryView;
 import com.gmail.tomasatrat.ui.views.readers.ReadersView;
+import com.gmail.tomasatrat.ui.views.stock.StockView;
 import com.gmail.tomasatrat.ui.views.users.UsersView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.orders.OrdersView;
@@ -126,8 +128,10 @@ public class MainView extends AppLayout {
 
         NaviItem inventory = menu.addNaviItem(VaadinIcon.CLIPBOARD_TEXT, "Inventario",
                 null);
-        if (SecurityUtils.isAccessGranted(UsersView.class))
+        if (SecurityUtils.isAccessGranted(UsersView.class)) {
+            menu.addNaviItem(inventory, "Panel de Inventario", InventoryView.class);
             menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
+        }
 
         //endregion
 
@@ -136,14 +140,13 @@ public class MainView extends AppLayout {
 
         menu.addNaviItem(orders, "Panel de pedidos", OrdersView.class);
 
-        NaviItem stock = menu.addNaviItem(VaadinIcon.STOCK, "Stock",
-                null);
-
-
         menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
             menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
+
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(VaadinIcon.STOCK, "Stock", StockView.class);
 
         menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, HomeView.class);
 

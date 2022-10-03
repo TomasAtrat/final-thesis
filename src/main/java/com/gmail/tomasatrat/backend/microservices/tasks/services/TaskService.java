@@ -1,16 +1,20 @@
 package com.gmail.tomasatrat.backend.microservices.tasks.services;
 
+import com.gmail.tomasatrat.app.security.SecurityUtils;
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.data.entity.Task;
 import com.gmail.tomasatrat.backend.data.entity.User;
+import com.gmail.tomasatrat.backend.data.entity.VTasksByUser;
 import com.gmail.tomasatrat.backend.microservices.orders.components.OrderClient;
 import com.gmail.tomasatrat.backend.microservices.tasks.components.TaskClient;
 import com.gmail.tomasatrat.backend.repositories.OrderInfoRepository;
 import com.gmail.tomasatrat.backend.repositories.TaskRepository;
 import com.gmail.tomasatrat.backend.repositories.UserRepository;
+import com.gmail.tomasatrat.backend.repositories.VTasksByUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,24 +26,45 @@ public class TaskService implements ICrudService {
 
     private final TaskClient taskClient;
     private TaskRepository taskRepository;
-
-    //private UserRepository userRepository;
+    private UserRepository userRepository;
+    private VTasksByUserRepository vTasksByUserRepository;
 
     @Autowired
-    public TaskService(TaskRepository taskRepository, UserRepository userRepository) {
+    public TaskService(TaskRepository taskRepository, UserRepository userRepository, VTasksByUserRepository vTasksByUserRepository) {
         this.taskRepository = taskRepository;
-        //this.userRepository = userRepository;
+        this.userRepository = userRepository;
+        this.vTasksByUserRepository = vTasksByUserRepository;
         taskClient = new TaskClient();
     }
 
     @Override
     public List<Task> findAll() {
-        return this.taskRepository.findAll();
+        String username = SecurityUtils.getUsername();
+        User user = this.userRepository.findByUsername(username);
+        List<Task> allTask = this.taskRepository.findAll();
+        if (user.getRole().equals("admin")) {
+            return allTask;
+        } else {
+            List<Task> allTaskByUserId = new ArrayList<>();
+            for (Task task : allTask) {
+                if (task.getUserId().getId().equals(user.getId())) {
+                    allTaskByUserId.add(task);
+                }
+            }
+            return allTaskByUserId;
+        }
     }
 
     @Override
     public IDataEntity addItem(IDataEntity item) {
-        return this.taskRepository.save((Task) item);
+        Task task = (Task) item;
+
+        if (task.getUserId() == null) {
+            VTasksByUser view = vTasksByUserRepository.findAutoUser();
+            task.setUserId(userRepository.findByUsername(view.getUsername()));
+        }
+
+        return this.taskRepository.save(task);
     }
 
     @Override
@@ -51,14 +76,5 @@ public class TaskService implements ICrudService {
     public void delete(IDataEntity item) {
         this.taskRepository.delete((Task) item);
     }
-
-    /*public List<String> findAllUsers(){
-        List<User> usuarios = this.userRepository.findAll();
-        List<String> usuariosId = new ArrayList<>();
-        for (int i = 0; i < usuarios.size(); i++) {
-            usuariosId.add(usuarios.get(i).getId().toString());
-        }
-        return usuariosId;
-    }*/
 
 }

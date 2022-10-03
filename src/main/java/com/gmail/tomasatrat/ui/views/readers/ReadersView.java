@@ -2,12 +2,10 @@ package com.gmail.tomasatrat.ui.views.readers;
 
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.data.entity.Reader;
+import com.gmail.tomasatrat.backend.data.entity.Module;
 import com.gmail.tomasatrat.backend.data.entity.Task;
-import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.microservices.reader.services.ReaderService;
-import com.gmail.tomasatrat.backend.microservices.tasks.services.TaskService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
@@ -16,11 +14,13 @@ import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.crud.*;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -54,6 +54,7 @@ public class ReadersView extends VerticalLayout implements HasLogger {
     private TextField alias;
     private Select<Float> antenaPower;
     private Select<Float> RSSI;
+    private ComboBox<Module> modules;
 
     private Crud<Reader> crud;
     private Grid<Reader> grid;
@@ -61,44 +62,48 @@ public class ReadersView extends VerticalLayout implements HasLogger {
     public ReadersView(ReaderService readerService) {
         this.readerService = readerService;
 
+        setAlignItems(Alignment.CENTER);
+
         setupGrid();
+
+        Button newItemButton = new Button("Nuevo lector RFID");
+        newItemButton.addClickListener(e -> crud.edit(new Reader(), Crud.EditMode.NEW_ITEM));
 
         setupCrud();
 
         this.add(crud);
+
+        this.add(new H2("Panel RFID"), newItemButton, crud);
     }
 
     private void setupGrid() {
         grid = new Grid<Reader>();
+        Crud.addEditColumn(grid);
         grid.setColumnReorderingAllowed(true);
         grid.addColumn(Reader::getName).setHeader("Nombre").setAutoWidth(true).setResizable(true);
         grid.addColumn(Reader::getAlias).setHeader("Alias").setAutoWidth(true).setResizable(true);
         grid.addColumn(Reader::getAntenaPower).setHeader("Potencia de antena").setAutoWidth(true).setResizable(true);
         grid.addColumn(Reader::getRSSI).setHeader("RSSI").setAutoWidth(true).setResizable(true);
+        grid.addColumn(reader -> reader.getModuleId().getName()).setHeader("Módulo").setAutoWidth(true).setResizable(true);
         grid.addColumn(createSwitchComponentRenderer()).setHeader("Activo");
     }
 
     private void setupCrud() {
-        crud = new Crud<>(Reader.class, grid, createOrdersEditor());
+        crud = new Crud<>(Reader.class, grid, createReadersEditor());
 
         setupDataProvider();
-
-        Button newItemButton = new Button("Nuevo lector RFID");
-        newItemButton.addClickListener(e -> crud.edit(new Reader(), Crud.EditMode.NEW_ITEM));
-
-        crud.setToolbar(newItemButton);
 
         crud.addThemeVariants(CrudVariant.NO_BORDER);
 
         crud.setI18n(createSpanishI18n());
     }
 
-    private CrudEditor<Reader> createOrdersEditor() {
+    private CrudEditor<Reader> createReadersEditor() {
         setupFormFields();
 
         FormLayout form = new FormLayout();
 
-        form.add(name, alias, antenaPower, RSSI);
+        form.add(name, alias, antenaPower, RSSI, modules);
 
         Binder<Reader> binder = getBinder();
 
@@ -130,6 +135,10 @@ public class ReadersView extends VerticalLayout implements HasLogger {
                 -80f
         );
         RSSI.setLabel("RSSI");
+        modules = new ComboBox<>("Módulo");
+        modules.setItems(readerService.findAllByFlActiveIsTrue());
+        modules.setItemLabelGenerator(user ->
+                user.getId() + " - " + user.getName());
     }
 
     private Binder<Reader> getBinder() {
@@ -138,6 +147,8 @@ public class ReadersView extends VerticalLayout implements HasLogger {
         binder.bind(alias, Reader::getAlias, Reader::setAlias);
         binder.bind(antenaPower, Reader::getAntenaPower, Reader::setAntenaPower);
         binder.bind(RSSI, Reader::getRSSI, Reader::setRSSI);
+        binder.bind(modules, Reader::getModuleId, Reader::setModuleId);
+
         return binder;
     }
 
@@ -175,6 +186,11 @@ public class ReadersView extends VerticalLayout implements HasLogger {
 
         if (this.RSSI.getValue() == 0f) {
             newErrorMsg("El valor RSSI es requerido");
+            rest = false;
+        }
+
+        if (this.modules.isEmpty()) {
+            newErrorMsg("El módulo es requerido");
             rest = false;
         }
 

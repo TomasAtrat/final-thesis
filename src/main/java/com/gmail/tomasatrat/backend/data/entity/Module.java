@@ -15,4 +15,20 @@ public class Module extends AbstractEntity implements IDataEntity {
 
     @Column(name = "flActive")
     private Boolean flActive;
+
+    public Boolean getFlActive() {
+        return flActive;
+    }
+
+    public void setFlActive(Boolean flActive) {
+        this.flActive = flActive;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
