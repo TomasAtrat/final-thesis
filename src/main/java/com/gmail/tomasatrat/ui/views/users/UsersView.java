@@ -23,12 +23,15 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.function.SerializableBiConsumer;
+import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_USERS;
 
@@ -71,7 +74,13 @@ public class UsersView extends VerticalLayout {
         grid.addColumn(u -> u.getFirstName() + " " + u.getLastName()).setHeader("Nombre").setAutoWidth(true).setResizable(true);
         grid.addColumn(User::getRole).setHeader("Rol").setAutoWidth(true);
         grid.addColumn(createSwitchComponentRenderer()).setHeader("Activo");
+        grid.addColumn(createProductivityComponentRenderer()).setHeader("Productividad").setAutoWidth(true);
     }
+
+    private final SerializableBiConsumer<TextField, User> serializableProductivity = (text, user) -> {
+        text.setReadOnly(true);
+        text.setValue(this.userService.getProductivityInMinutes().toString());
+    };
 
     private final SerializableBiConsumer<ToggleButton, User> statusComponentUpdater = (toggle, user) -> {
         toggle.setValue(user.isActive());
@@ -101,6 +110,10 @@ public class UsersView extends VerticalLayout {
 
     private ComponentRenderer createSwitchComponentRenderer() {
         return new ComponentRenderer<>(ToggleButton::new, statusComponentUpdater);
+    }
+
+    private ComponentRenderer createProductivityComponentRenderer() {
+        return new ComponentRenderer<>(TextField::new, serializableProductivity);
     }
 
     private void setupCrud() {

@@ -120,4 +120,8 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 	public void delete(IDataEntity item) {
 		this.userRepository.delete((User) item);
 	}
+
+	public Integer getProductivityInMinutes() {
+		return 1;
+	}
 }

@@ -1,19 +1,13 @@
 package com.gmail.tomasatrat.backend.data.entity;
 
+import com.gmail.tomasatrat.backend.common.IDataEntity;
+
 import javax.persistence.*;
 import java.time.Instant;
 
 @Entity
 @Table(name = "stock")
-public class Stock {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
-
-    @Column(name = "version", nullable = false)
-    private Integer version;
-
+public class Stock extends AbstractEntity implements IDataEntity {
     @Column(name = "add_date")
     private Instant addDate;
 
@@ -26,30 +20,14 @@ public class Stock {
     @Column(name = "update_date")
     private Instant updateDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "barcode_barcode")
     private Barcode barcodeBarcode;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
+    
     public Instant getAddDate() {
         return addDate;
     }

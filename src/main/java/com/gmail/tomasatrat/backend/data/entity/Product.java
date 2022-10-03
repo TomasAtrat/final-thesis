@@ -1,11 +1,13 @@
 package com.gmail.tomasatrat.backend.data.entity;
 
+import com.gmail.tomasatrat.backend.common.IDataEntity;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product implements IDataEntity {
     @Id
     @Column(name = "code", nullable = false)
     private String id;

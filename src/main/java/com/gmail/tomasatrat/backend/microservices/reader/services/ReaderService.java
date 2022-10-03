@@ -2,7 +2,9 @@ package com.gmail.tomasatrat.backend.microservices.reader.services;
 
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
+import com.gmail.tomasatrat.backend.data.entity.Module;
 import com.gmail.tomasatrat.backend.data.entity.Reader;
+import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.repositories.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,12 @@ import java.util.Optional;
 public class ReaderService implements ICrudService {
 
     private ReaderRepository readerRepository;
+    private ModuleRepository moduleRepository;
 
     @Autowired
-    public ReaderService(ReaderRepository readerRepository) {
+    public ReaderService(ReaderRepository readerRepository, ModuleRepository moduleRepository) {
         this.readerRepository = readerRepository;
+        this.moduleRepository = moduleRepository;
     }
 
     @Override
@@ -48,5 +52,9 @@ public class ReaderService implements ICrudService {
     public void toggleStatus(Reader reader) {
         reader.setFlActive(!reader.getFlActive());
         this.readerRepository.save(reader);
+    }
+
+    public List<Module> findAllByFlActiveIsTrue() {
+        return this.moduleRepository.findAllByFlActiveIsTrue();
     }
 }

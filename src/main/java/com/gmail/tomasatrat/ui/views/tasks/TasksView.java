@@ -74,13 +74,14 @@ public class TasksView extends VerticalLayout implements HasLogger {
 
     private void setupGrid() {
         grid = new Grid<Task>();
+        Crud.addEditColumn(grid);
         grid.setColumnReorderingAllowed(true);
         grid.addColumn(Task::getTitle).setHeader("Titulo").setAutoWidth(true).setResizable(true);
         grid.addColumn(Task::getDescription).setHeader("Descripción").setAutoWidth(true).setResizable(true);
         grid.addColumn(Task::getPriority).setHeader("Prioridad").setAutoWidth(true).setResizable(true);
         grid.addColumn(Task::getState).setHeader("Estado").setAutoWidth(true).setResizable(true);
         grid.addColumn(Task::getCategory).setHeader("Categoría").setAutoWidth(true).setResizable(true);
-        grid.addColumn(task -> task.getUserId().getUsername()).setHeader("Usuario").setAutoWidth(true).setResizable(true);
+        grid.addColumn(task -> task.getUserId().getUsername()).setHeader("Usuario").setWidth("90px").setResizable(true);
     }
 
     private void setupDataProvider() {
@@ -115,7 +116,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
 
         notification.add(layout);
         notification.setPosition(Notification.Position.BOTTOM_CENTER);
-        notification.setDuration(80000);
+        notification.setDuration(4000);
         notification.open();
     }
 
@@ -151,7 +152,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
     }
 
     private void setupCrud() {
-        crud = new Crud<>(Task.class, grid, createOrdersEditor());
+        crud = new Crud<>(Task.class, grid, createTaskEditor());
 
         setupDataProvider();
 
@@ -183,7 +184,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
         return spanishI18n;
     }
 
-    private CrudEditor<Task> createOrdersEditor() {
+    private CrudEditor<Task> createTaskEditor() {
         setupFormFields();
 
         FormLayout form = new FormLayout();

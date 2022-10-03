@@ -1,10 +1,12 @@
 package com.gmail.tomasatrat.backend.data.entity;
 
+import com.gmail.tomasatrat.backend.common.IDataEntity;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "barcode")
-public class Barcode {
+public class Barcode implements IDataEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "barcode", nullable = false)

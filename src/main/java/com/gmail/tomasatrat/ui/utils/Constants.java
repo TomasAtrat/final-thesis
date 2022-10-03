@@ -25,8 +25,10 @@ public class Constants {
 
 	public static final String PAGE_TASKS = "tasks";
 	public static final String PAGE_READER = "readers";
+	public static final String PAGE_STOCK = "stock";
 
 	public static final String PAGE_INVENTORY_PROBLEMS = "inventory_problems";
+	public static final String PAGE_INVENTORY = "inventory";
 	public static final String PAGE_RECEPTION_PROBLEMS = "reception_problems";
 
 	public static final String TITLE_HOME = "Home";
@@ -46,8 +48,10 @@ public class Constants {
 	public static final Sort.Direction DEFAULT_SORT_DIRECTION = Sort.Direction.ASC;
 
 	public static final String VIEWPORT = "width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, viewport-fit=cover";
+	public static final String TITLE_STOCK = "Stock";
+    public static final String TITLE_INVENTORY = "Inventario";
 
-	// Mutable for testing.
+    // Mutable for testing.
 	public static int NOTIFICATION_DURATION = 4000;
 
 }
