@@ -117,12 +117,24 @@ public class MainView extends AppLayout {
 
         menu.addNaviItem(VaadinIcon.HOME, TITLE_HOME, HomeView.class);
 
+        //region Register
+
         NaviItem register = menu.addNaviItem(VaadinIcon.PLUS, "Registro",
                 null);
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
             menu.addNaviItem(register, "Usuarios", UsersView.class);
 
+        //endregion
+
+        //region Reception
+
+        NaviItem reception = menu.addNaviItem(VaadinIcon.CLIPBOARD_CHECK, "Recepción",
+                null);
+        if (SecurityUtils.isAccessGranted(ReceptionProblemsView.class))
+            menu.addNaviItem(reception, "Problemas sin aceptar", ReceptionProblemsView.class);
+
+        //endregion
 
         //region Inventory
 
@@ -130,10 +142,12 @@ public class MainView extends AppLayout {
                 null);
         if (SecurityUtils.isAccessGranted(UsersView.class)) {
             menu.addNaviItem(inventory, "Panel de Inventario", InventoryView.class);
+        if (SecurityUtils.isAccessGranted(InventoryProblemsView.class))
             menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
         }
 
         //endregion
+
 
         NaviItem orders = menu.addNaviItem(VaadinIcon.PACKAGE, "Pedidos",
                 null);
