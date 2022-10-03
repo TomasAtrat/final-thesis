@@ -3,7 +3,6 @@ package com.gmail.tomasatrat.backend.microservices.reader.services;
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 import com.gmail.tomasatrat.backend.data.entity.Reader;
-import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.repositories.ReaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

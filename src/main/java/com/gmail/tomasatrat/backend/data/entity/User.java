@@ -1,149 +1,109 @@
 package com.gmail.tomasatrat.backend.data.entity;
 
 import com.gmail.tomasatrat.backend.common.IDataEntity;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Objects;
+import javax.persistence.*;
 
-@Getter
-@Setter
-@Entity(name="UserInfo")
+@Entity
+@Table(name = "user_info")
 public class User extends AbstractEntity implements IDataEntity {
+    @Column(name = "active")
+    private Boolean active;
 
-	@NotEmpty
-	@Size(max = 255)
-	@Column(unique = true)
-	private String username;
+    @Column(name = "email")
+    private String email;
 
-	@NotEmpty
-	@Email
-	@Size(max = 255)
-	@Column(unique = true)
-	private String email;
+    @Column(name = "first_name")
+    private String firstName;
 
-	@NotNull
-	@Size(min = 4, max = 255)
-	private String passwordHash;
+    @Column(name = "last_name")
+    private String lastName;
 
-	@NotBlank
-	@Size(max = 255)
-	private String firstName;
+    @Column(name = "locked", nullable = false)
+    private Boolean locked = false;
 
-	@NotBlank
-	@Size(max = 255)
-	private String lastName;
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
 
-	@NotBlank
-	@Size(max = 255)
-	private String role;
+    @Column(name = "role")
+    private String role;
 
-	private boolean locked = false;
-	@Column
-	private boolean active = true;
+    @Column(name = "username")
+    private String username;
 
-	@PrePersist
-	@PreUpdate
-	private void prepareData(){
-		this.email = email == null ? null : email.toLowerCase();
-	}
+    @Column(name = "id_branch")
+    private Long idBranch;
 
-	public User() {
-		// An empty constructor is needed for all beans
-	}
+    public Boolean getActive() {
+        return active;
+    }
 
-	public String getPasswordHash() {
-		return passwordHash;
-	}
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public Boolean isLocked() {
+        return locked;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getPasswordHash() {
+        return passwordHash;
+    }
 
-	public boolean isLocked() {
-		return locked;
-	}
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
 
-	public void setLocked(boolean locked) {
-		this.locked = locked;
-	}
+    public String getRole() {
+        return role;
+    }
 
-	public boolean isActive() {
-		return active;
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public String getUsername() {
+        return username;
+    }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getCompleteName(){
-		return this.firstName + " " + this.lastName;
-	}
+    public Long getIdBranch() {
+        return idBranch;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		if (!super.equals(o)) {
-			return false;
-		}
-		User that = (User) o;
-		return locked == that.locked &&
-				Objects.equals(username, that.username) &&
-				Objects.equals(email, that.email) &&
-				Objects.equals(firstName, that.firstName) &&
-				Objects.equals(lastName, that.lastName) &&
-				Objects.equals(role, that.role);
-	}
+    public void setIdBranch(Long idBranch) {
+        this.idBranch = idBranch;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), email, firstName, lastName, role, locked);
-	}
 }
