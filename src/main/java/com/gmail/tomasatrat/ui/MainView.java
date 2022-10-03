@@ -9,6 +9,7 @@ import com.gmail.tomasatrat.ui.views.HasConfirmation;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryProblemsView;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryView;
 import com.gmail.tomasatrat.ui.views.readers.ReadersView;
+import com.gmail.tomasatrat.ui.views.reception.ReceptionProblemsView;
 import com.gmail.tomasatrat.ui.views.stock.StockView;
 import com.gmail.tomasatrat.ui.views.users.UsersView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
