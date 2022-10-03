@@ -45,7 +45,7 @@ public class InventoryService implements ICrudService {
             InventoryDetail inventoryDetail = new InventoryDetail();
             inventoryDetail.setInventory(newInventory);
             inventoryDetail.setSupposedQty(Math.toIntExact(detail.getQtStock()));
-            inventoryDetail.setBarcode(detail.getBarcodeId());
+            inventoryDetail.setBarcode(detail.getBarcodeBarcode());
 
             this.inventoryDetailRepository.save(inventoryDetail);
         }

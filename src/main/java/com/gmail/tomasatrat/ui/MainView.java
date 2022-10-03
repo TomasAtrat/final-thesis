@@ -120,11 +120,11 @@ public class MainView extends AppLayout {
 
         //region Register
 
-        NaviItem register = menu.addNaviItem(VaadinIcon.PLUS, "Registro",
-                null);
+       /* NaviItem register = menu.addNaviItem(VaadinIcon.PLUS, "Registro",
+                null);*/
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(register, "Usuarios", UsersView.class);
+            menu.addNaviItem(VaadinIcon.USER, "Usuarios", UsersView.class);
 
         //endregion
 

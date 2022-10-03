@@ -118,9 +118,9 @@ public class InventoryView extends VerticalLayout {
         productListBox = new Grid<>(Stock.class, false);
         productListBox.setSelectionMode(Grid.SelectionMode.MULTI);
         productListBox.setItems(stockService.findAll());
-        productListBox.addColumn(stock -> stock.getBarcodeId().getProductCode().getDescription()).setHeader("Descripción");
+        productListBox.addColumn(stock -> stock.getBarcodeBarcode().getProductCode().getDescription()).setHeader("Descripción");
         productListBox.addColumn(Stock::getQtStock).setHeader("Stock");
-        productListBox.addColumn(stock -> stock.getBarcodeId().getId()).setHeader("Código");
+        productListBox.addColumn(stock -> stock.getBarcodeBarcode().getId()).setHeader("Código");
         description = new TextField("Descripción");
         users = new ComboBox<>("Usuario");
         users.setItems(userService.findAllByActiveIsTrue());

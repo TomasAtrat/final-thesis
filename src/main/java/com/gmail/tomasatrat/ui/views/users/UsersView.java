@@ -74,7 +74,7 @@ public class UsersView extends VerticalLayout {
         grid.addColumn(u -> u.getFirstName() + " " + u.getLastName()).setHeader("Nombre").setAutoWidth(true).setResizable(true);
         grid.addColumn(User::getRole).setHeader("Rol").setAutoWidth(true);
         grid.addColumn(createSwitchComponentRenderer()).setHeader("Activo");
-        grid.addColumn(createProductivityComponentRenderer()).setHeader("Productividad").setAutoWidth(true);
+        grid.addColumn(u -> this.userService.getProductivityInMinutes().toString()).setHeader("Productividad").setAutoWidth(true);
     }
 
     private final SerializableBiConsumer<TextField, User> serializableProductivity = (text, user) -> {

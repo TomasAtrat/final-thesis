@@ -53,10 +53,6 @@ public final class SecurityUtils {
         return null;
     }
 
-    public static String getCompleteName() {
-        return user != null ? user.getCompleteName() : getUsername();
-    }
-
     /**
      * Checks if access is granted for the current user for the given secured view,
      * defined by the view class.

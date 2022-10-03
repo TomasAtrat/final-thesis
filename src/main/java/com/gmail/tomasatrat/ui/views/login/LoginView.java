@@ -25,8 +25,6 @@ public class LoginView extends LoginOverlay
 		LoginI18n i18n = LoginI18n.createDefault();
 		i18n.setHeader(new LoginI18n.Header());
 		i18n.getHeader().setTitle("Smartstore");
-		i18n.getHeader().setDescription(
-			"admin@vaadin.com + admin\n" + "barista@vaadin.com + barista");
 		i18n.setAdditionalInformation(null);
 		i18n.setForm(new LoginI18n.Form());
 		i18n.getForm().setSubmit("Iniciar sesión");

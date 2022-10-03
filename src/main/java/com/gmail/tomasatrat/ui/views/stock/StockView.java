@@ -49,10 +49,10 @@ public class StockView extends VerticalLayout implements HasLogger {
     private void setupGrid() {
         grid = new Grid<Stock>();
         grid.setColumnReorderingAllowed(true);
-        grid.addColumn(stock -> stock.getBarcodeId().getDescription1()).setHeader("Producto").setAutoWidth(true).setResizable(true);
-        grid.addColumn(stock -> stock.getBarcodeId().getId()).setHeader("Código de barras").setAutoWidth(true).setResizable(true);
-        grid.addColumn(stock -> stock.getBarcodeId().getColour()).setHeader("Color").setAutoWidth(true).setResizable(true);
-        grid.addColumn(stock -> stock.getBarcodeId().getSize()).setHeader("Talle").setAutoWidth(true).setResizable(true);
+        grid.addColumn(stock -> stock.getBarcodeBarcode().getDescription1()).setHeader("Producto").setAutoWidth(true).setResizable(true);
+        grid.addColumn(stock -> stock.getBarcodeBarcode().getId()).setHeader("Código de barras").setAutoWidth(true).setResizable(true);
+        grid.addColumn(stock -> stock.getBarcodeBarcode().getColour()).setHeader("Color").setAutoWidth(true).setResizable(true);
+        grid.addColumn(stock -> stock.getBarcodeBarcode().getSize()).setHeader("Talle").setAutoWidth(true).setResizable(true);
         grid.addColumn(Stock::getQtStock).setHeader("Cantidad stock").setAutoWidth(true).setResizable(true);
         grid.addColumn(Stock::getQtReserve).setHeader("Cantidad reserva").setAutoWidth(true).setResizable(true);
         grid.addColumn(Stock::getAddDate).setHeader("Fecha de alta").setAutoWidth(true).setResizable(true);

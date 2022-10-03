@@ -34,7 +34,7 @@ public class User extends AbstractEntity implements IDataEntity {
     @Column(name = "id_branch")
     private Long idBranch;
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 
