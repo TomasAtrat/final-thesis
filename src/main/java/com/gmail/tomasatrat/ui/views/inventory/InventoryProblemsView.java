@@ -100,6 +100,7 @@ public class InventoryProblemsView extends VerticalLayout {
         this.grid.setItems(this.inventoryProblemService.getNotAcceptedProblems());
 
         this.inventoryProblemService.updateInventoryDetailAcceptedQty(problem.getDetail());
+        this.inventoryProblemService.updateStockAfterInventoryProblemAccepted(problem.getDetail());
     }
 
     private static MenuItem createIconItem(HasMenuItems menu, VaadinIcon iconName, String label, String ariaLabel) {
