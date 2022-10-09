@@ -2,10 +2,7 @@ package com.gmail.tomasatrat.backend.microservices.inventory.services;
 
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
-import com.gmail.tomasatrat.backend.data.entity.Barcode;
-import com.gmail.tomasatrat.backend.data.entity.Inventory;
-import com.gmail.tomasatrat.backend.data.entity.InventoryDetail;
-import com.gmail.tomasatrat.backend.data.entity.Stock;
+import com.gmail.tomasatrat.backend.data.entity.*;
 import com.gmail.tomasatrat.backend.repositories.BarcodeRepository;
 import com.gmail.tomasatrat.backend.repositories.InventoryDetailRepository;
 import com.gmail.tomasatrat.backend.repositories.InventoryRepository;
@@ -64,5 +61,9 @@ public class InventoryService implements ICrudService {
     @Override
     public void delete(IDataEntity item) {
         this.inventoryRepository.delete((Inventory) item);
+    }
+
+    public List<InventoryDetail> getOrderDetailsByOrder(Inventory inventory) {
+        return inventoryDetailRepository.findAllByInventory(inventory);
     }
 }
