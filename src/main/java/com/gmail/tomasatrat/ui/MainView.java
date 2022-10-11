@@ -6,15 +6,16 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
+import com.gmail.tomasatrat.ui.views.expedition.OrderExpeditionView;
+import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryProblemsView;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryView;
+import com.gmail.tomasatrat.ui.views.orders.OrdersView;
 import com.gmail.tomasatrat.ui.views.readers.ReadersView;
 import com.gmail.tomasatrat.ui.views.reception.ReceptionProblemsView;
 import com.gmail.tomasatrat.ui.views.stock.StockView;
-import com.gmail.tomasatrat.ui.views.users.UsersView;
-import com.gmail.tomasatrat.ui.views.home.HomeView;
-import com.gmail.tomasatrat.ui.views.orders.OrdersView;
 import com.gmail.tomasatrat.ui.views.tasks.TasksView;
+import com.gmail.tomasatrat.ui.views.users.UsersView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -137,31 +138,44 @@ public class MainView extends AppLayout {
 
         //endregion
 
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(VaadinIcon.STOCK, "Stock", StockView.class);
+
         //region Inventory
 
         NaviItem inventory = menu.addNaviItem(VaadinIcon.CLIPBOARD_TEXT, "Inventario",
                 null);
         if (SecurityUtils.isAccessGranted(UsersView.class)) {
             menu.addNaviItem(inventory, "Panel de Inventario", InventoryView.class);
-        if (SecurityUtils.isAccessGranted(InventoryProblemsView.class))
-            menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
+            if (SecurityUtils.isAccessGranted(InventoryProblemsView.class))
+                menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
         }
 
         //endregion
 
-
+        //region Orders
         NaviItem orders = menu.addNaviItem(VaadinIcon.PACKAGE, "Pedidos",
                 null);
 
         menu.addNaviItem(orders, "Panel de pedidos", OrdersView.class);
+
+        //endregion
 
         menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
             menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(VaadinIcon.STOCK, "Stock", StockView.class);
+        //region Expedition
+
+        NaviItem expedition = menu.addNaviItem(VaadinIcon.TRUCK, "Expedición",
+                null);
+
+        if (SecurityUtils.isAccessGranted(UsersView.class)) {
+            menu.addNaviItem(expedition, "Finalizar pedidos", OrderExpeditionView.class);
+        }
+
+        //endregion
 
         menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, HomeView.class);
 

@@ -1,7 +1,10 @@
 package com.gmail.tomasatrat.ui.views.inventory;
 
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.*;
+import com.gmail.tomasatrat.backend.data.entity.Inventory;
+import com.gmail.tomasatrat.backend.data.entity.InventoryDetail;
+import com.gmail.tomasatrat.backend.data.entity.Stock;
+import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.microservices.barcode.services.BarcodeService;
 import com.gmail.tomasatrat.backend.microservices.inventory.services.InventoryService;
 import com.gmail.tomasatrat.backend.microservices.stock.services.StockService;
@@ -21,16 +24,12 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Hr;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.listbox.MultiSelectListBox;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;

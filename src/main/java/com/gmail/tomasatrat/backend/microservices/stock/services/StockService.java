@@ -2,6 +2,8 @@ package com.gmail.tomasatrat.backend.microservices.stock.services;
 
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
+import com.gmail.tomasatrat.backend.data.entity.Barcode;
+import com.gmail.tomasatrat.backend.data.entity.Branch;
 import com.gmail.tomasatrat.backend.data.entity.Reader;
 import com.gmail.tomasatrat.backend.data.entity.Stock;
 import com.gmail.tomasatrat.backend.repositories.ModuleRepository;
@@ -41,5 +43,9 @@ public class StockService implements ICrudService {
     @Override
     public void delete(IDataEntity item) {
         this.stockRepository.delete((Stock) item);
+    }
+
+    public Stock findStockByBarcodeAndBranch(Barcode barcode, Branch branch){
+        return this.stockRepository.findByBarcodeBarcodeAndBranch(barcode, branch);
     }
 }
