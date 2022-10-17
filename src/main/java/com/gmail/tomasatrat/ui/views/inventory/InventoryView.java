@@ -24,6 +24,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -43,6 +44,7 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_INVENTORY;
@@ -140,13 +142,14 @@ public class InventoryView extends VerticalLayout {
 
     private void openDetailsForm(Inventory inventory) {
         detailsForm = new Dialog();
-        detailsForm.setSizeFull();
+        detailsForm.setWidthFull();
         detailsForm.getElement().setAttribute("aria-label", "Añadir detalles");
         Grid<InventoryDetail> detailGrid = new Grid<>();
 
         detailGrid.setItems(this.inventoryService.getOrderDetailsByOrder(inventory));
 
         detailGrid.setColumnReorderingAllowed(true);
+        detailGrid.addColumn(createDetailStatusIndicator()).setHeader("Estado").setAutoWidth(true).setResizable(true);
         detailGrid.addColumn(detail -> detail.getBarcode().getProductCode().getId()).setHeader("Producto").setAutoWidth(true).setResizable(true);
         detailGrid.addColumn(detail -> detail.getBarcode().getProductCode().getDescription()).setHeader("Producto").setAutoWidth(true).setResizable(true);
         detailGrid.addColumn(detail -> detail.getBarcode().getId()).setHeader("Código de barras").setAutoWidth(true).setResizable(true);
@@ -157,6 +160,23 @@ public class InventoryView extends VerticalLayout {
         detailsForm.add(detailGrid);
         detailsForm.open();
     }
+
+    private ComponentRenderer<Span, InventoryDetail> createDetailStatusIndicator() {
+        return new ComponentRenderer<>(Span::new, detailStatusIndicator);
+    }
+
+    private final SerializableBiConsumer<Span, InventoryDetail> detailStatusIndicator = (span, detail) -> {
+        boolean hasProblems = !Objects.equals(detail.getReadQty(), detail.getSupposedQty());
+        String theme = String
+                .format("badge %s", hasProblems ? "error" : "success");
+        span.getElement().setAttribute("theme", theme);
+
+        if(!hasProblems) span.setText("OK");
+
+        else if(detail.getReadQty() < detail.getSupposedQty()) span.setText("QUIEBRE");
+
+        else if(detail.getReadQty() == 0) span.setText("OUT OF STOCK");
+    };
 
     private void setupCrud() {
         crud = new Crud<>(Inventory.class, grid, createInventoryEditor());
