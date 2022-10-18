@@ -32,6 +32,7 @@ public class Constants {
 	public static final String PAGE_INVENTORY_PROBLEMS = "inventory_problems";
 	public static final String PAGE_INVENTORY = "inventory";
 	public static final String PAGE_RECEPTION_PROBLEMS = "reception_problems";
+	public static final String PAGE_ORDER_EXPEDITION = "";
 
 	public static final String PAGE_CAROUSEL = "carousel";
 
@@ -41,6 +42,7 @@ public class Constants {
 	public static final String TITLE_ORDERS = "Pedidos | Smartstore";
 	public static final String TITLE_INVENTORY_PROBLEMS = "Problemas inventario | Smartstore";
 	public static final String TITLE_RECEPTION_PROBLEMS = "Problemas recepción | Smartstore";
+	public static final String TITLE_ORDER_EXPEDITION = "Pedidos expedidos | Smartstore";
 	public static final String TITLE_TASKS = "Tareas";
 	public static final String TITLE_READERS = "Lectores RFID";
 	public static final String TITLE_PRODUCTS = "Products";

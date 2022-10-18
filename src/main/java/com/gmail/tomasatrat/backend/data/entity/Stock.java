@@ -3,13 +3,13 @@ package com.gmail.tomasatrat.backend.data.entity;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Table(name = "stock")
 public class Stock extends AbstractEntity implements IDataEntity {
     @Column(name = "add_date")
-    private Instant addDate;
+    private Date addDate;
 
     @Column(name = "qt_reserve")
     private Long qtReserve;
@@ -18,7 +18,7 @@ public class Stock extends AbstractEntity implements IDataEntity {
     private Long qtStock;
 
     @Column(name = "update_date")
-    private Instant updateDate;
+    private Date updateDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "barcode_barcode")
@@ -27,12 +27,12 @@ public class Stock extends AbstractEntity implements IDataEntity {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
-    
-    public Instant getAddDate() {
+
+    public Date getAddDate() {
         return addDate;
     }
 
-    public void setAddDate(Instant addDate) {
+    public void setAddDate(Date addDate) {
         this.addDate = addDate;
     }
 
@@ -52,11 +52,11 @@ public class Stock extends AbstractEntity implements IDataEntity {
         this.qtStock = qtStock;
     }
 
-    public Instant getUpdateDate() {
+    public Date getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Instant updateDate) {
+    public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
     }
 

@@ -2,6 +2,7 @@ package com.gmail.tomasatrat.ui.views.inventory;
 
 import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.Inventory;
+import com.gmail.tomasatrat.backend.data.entity.InventoryDetail;
 import com.gmail.tomasatrat.backend.data.entity.Stock;
 import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.microservices.barcode.services.BarcodeService;
@@ -15,22 +16,27 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
+import com.vaadin.flow.component.contextmenu.HasMenuItems;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.crud.*;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.listbox.MultiSelectListBox;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.function.SerializableBiConsumer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +44,7 @@ import org.springframework.security.access.annotation.Secured;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_INVENTORY;
@@ -58,6 +65,7 @@ public class InventoryView extends VerticalLayout {
     private TextField description;
     Grid<Stock> productListBox;
     private ComboBox<User> users;
+    private Dialog detailsForm;
 
     @Autowired
     public InventoryView(InventoryService inventoryService, UserService userService, BarcodeService barcodeService, StockService stockService) {
@@ -84,6 +92,7 @@ public class InventoryView extends VerticalLayout {
         grid = new Grid<Inventory>();
         Crud.addEditColumn(grid);
         grid.setColumnReorderingAllowed(true);
+        grid.addColumn(createActionsMenuBar()).setHeader("").setAutoWidth(true);
         grid.addColumn(Inventory::getId).setHeader("Id").setAutoWidth(true).setResizable(true);
         grid.addColumn(Inventory::getDescription).setHeader("Descripción").setAutoWidth(true).setResizable(true);
         grid.addColumn(Inventory::getAddDate).setHeader("Fecha de creación").setAutoWidth(true).setResizable(true);
@@ -91,6 +100,83 @@ public class InventoryView extends VerticalLayout {
         grid.addColumn(Inventory::getEndingDate).setHeader("Fecha de fin").setAutoWidth(true).setResizable(true);
         grid.addColumn(inventory -> inventory.getUserAssigned().getUsername()).setHeader("Usuario").setWidth("90px").setResizable(true);
     }
+
+    private ComponentRenderer<MenuBar, Inventory> createActionsMenuBar() {
+        return new ComponentRenderer<>(MenuBar::new, statusComponentUpdater);
+    }
+
+    private final SerializableBiConsumer<MenuBar, Inventory> statusComponentUpdater = (menuBar, inventory) -> {
+        menuBar.addThemeVariants(MenuBarVariant.LUMO_ICON);
+
+        MenuItem actions = createIconItem(menuBar, VaadinIcon.BULLETS, null, null);
+
+        MenuItem addDetail = createIconItem(actions.getSubMenu(), VaadinIcon.BULLETS, "Detalles", null, true);
+
+        addDetail.addClickListener(e -> openDetailsForm(inventory));
+    };
+
+    private static MenuItem createIconItem(HasMenuItems menu, VaadinIcon iconName, String label, String ariaLabel) {
+        return createIconItem(menu, iconName, label, ariaLabel, false);
+    }
+
+    private static MenuItem createIconItem(HasMenuItems menu, VaadinIcon iconName, String label, String ariaLabel, boolean isChild) {
+        Icon icon = new Icon(iconName);
+        if (isChild) {
+            icon.getStyle().set("width", "var(--lumo-icon-size-s)");
+            icon.getStyle().set("height", "var(--lumo-icon-size-s)");
+            icon.getStyle().set("marginRight", "var(--lumo-space-s)");
+        }
+        MenuItem item = menu.addItem(icon, e -> {
+        });
+
+        if (ariaLabel != null) {
+            item.getElement().setAttribute("aria-label", ariaLabel);
+        }
+
+        if (label != null) {
+            item.add(new Text(label));
+        }
+
+        return item;
+    }
+
+    private void openDetailsForm(Inventory inventory) {
+        detailsForm = new Dialog();
+        detailsForm.setWidthFull();
+        detailsForm.getElement().setAttribute("aria-label", "Añadir detalles");
+        Grid<InventoryDetail> detailGrid = new Grid<>();
+
+        detailGrid.setItems(this.inventoryService.getOrderDetailsByOrder(inventory));
+
+        detailGrid.setColumnReorderingAllowed(true);
+        detailGrid.addColumn(createDetailStatusIndicator()).setHeader("Estado").setAutoWidth(true).setResizable(true);
+        detailGrid.addColumn(detail -> detail.getBarcode().getProductCode().getId()).setHeader("Producto").setAutoWidth(true).setResizable(true);
+        detailGrid.addColumn(detail -> detail.getBarcode().getProductCode().getDescription()).setHeader("Producto").setAutoWidth(true).setResizable(true);
+        detailGrid.addColumn(detail -> detail.getBarcode().getId()).setHeader("Código de barras").setAutoWidth(true).setResizable(true);
+        detailGrid.addColumn(detail -> detail.getBarcode().getColour()).setHeader("Color").setAutoWidth(true).setResizable(true);
+        detailGrid.addColumn(detail -> detail.getBarcode().getSize()).setHeader("Tamaño").setAutoWidth(true).setResizable(true);
+        detailGrid.addColumn(InventoryDetail::getSupposedQty).setHeader("Cantidad teórica").setAutoWidth(true).setResizable(true);
+
+        detailsForm.add(detailGrid);
+        detailsForm.open();
+    }
+
+    private ComponentRenderer<Span, InventoryDetail> createDetailStatusIndicator() {
+        return new ComponentRenderer<>(Span::new, detailStatusIndicator);
+    }
+
+    private final SerializableBiConsumer<Span, InventoryDetail> detailStatusIndicator = (span, detail) -> {
+        boolean hasProblems = !Objects.equals(detail.getReadQty(), detail.getSupposedQty());
+        String theme = String
+                .format("badge %s", hasProblems ? "error" : "success");
+        span.getElement().setAttribute("theme", theme);
+
+        if(!hasProblems) span.setText("OK");
+
+        else if(detail.getReadQty() < detail.getSupposedQty()) span.setText("QUIEBRE");
+
+        else if(detail.getReadQty() == 0) span.setText("OUT OF STOCK");
+    };
 
     private void setupCrud() {
         crud = new Crud<>(Inventory.class, grid, createInventoryEditor());

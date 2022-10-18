@@ -73,4 +73,8 @@ public class OrderService implements ICrudService {
             throw new SmartStoreException("No existe el producto específico ingresado");
         orderDetailRepository.save(detail);
     }
+
+    public void updateOrder(OrderInfo order){
+        this.orderInfoRepository.save(order);
+    }
 }
