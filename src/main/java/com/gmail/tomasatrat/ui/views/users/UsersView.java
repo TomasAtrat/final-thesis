@@ -74,13 +74,8 @@ public class UsersView extends VerticalLayout {
         grid.addColumn(u -> u.getFirstName() + " " + u.getLastName()).setHeader("Nombre").setAutoWidth(true).setResizable(true);
         grid.addColumn(User::getRole).setHeader("Rol").setAutoWidth(true);
         grid.addColumn(createSwitchComponentRenderer()).setHeader("Activo");
-        grid.addColumn(u -> this.userService.getProductivityInMinutes().toString()).setHeader("Productividad").setAutoWidth(true);
+        grid.addColumn(u -> this.userService.getProductivityInMinutes(u.getId()).toString()).setHeader("Productividad (minutos)").setAutoWidth(true);
     }
-
-    private final SerializableBiConsumer<TextField, User> serializableProductivity = (text, user) -> {
-        text.setReadOnly(true);
-        text.setValue(this.userService.getProductivityInMinutes().toString());
-    };
 
     private final SerializableBiConsumer<ToggleButton, User> statusComponentUpdater = (toggle, user) -> {
         toggle.setValue(user.isActive());
@@ -110,10 +105,6 @@ public class UsersView extends VerticalLayout {
 
     private ComponentRenderer createSwitchComponentRenderer() {
         return new ComponentRenderer<>(ToggleButton::new, statusComponentUpdater);
-    }
-
-    private ComponentRenderer createProductivityComponentRenderer() {
-        return new ComponentRenderer<>(TextField::new, serializableProductivity);
     }
 
     private void setupCrud() {

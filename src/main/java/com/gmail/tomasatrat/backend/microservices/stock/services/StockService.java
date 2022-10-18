@@ -4,12 +4,15 @@ import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 import com.gmail.tomasatrat.backend.data.entity.Reader;
 import com.gmail.tomasatrat.backend.data.entity.Stock;
+import com.gmail.tomasatrat.backend.data.entity.VStockProduct;
 import com.gmail.tomasatrat.backend.repositories.ModuleRepository;
 import com.gmail.tomasatrat.backend.repositories.ReaderRepository;
 import com.gmail.tomasatrat.backend.repositories.StockRepository;
+import com.gmail.tomasatrat.backend.repositories.VStockProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +21,12 @@ public class StockService implements ICrudService {
 
     private StockRepository stockRepository;
 
+    private VStockProductRepository vStockProductRepository;
+
     @Autowired
-    public StockService(StockRepository stockRepository) {
+    public StockService(StockRepository stockRepository, VStockProductRepository vStockProductRepository) {
         this.stockRepository = stockRepository;
+        this.vStockProductRepository = vStockProductRepository;
     }
 
     @Override
@@ -41,5 +47,10 @@ public class StockService implements ICrudService {
     @Override
     public void delete(IDataEntity item) {
         this.stockRepository.delete((Stock) item);
+    }
+
+    public List<VStockProduct> getAllStockProduct() {
+        List<VStockProduct> list = new ArrayList<>(this.vStockProductRepository.findStockProduct());
+        return list;
     }
 }

@@ -1,10 +1,14 @@
 package com.gmail.tomasatrat.backend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
+import com.gmail.tomasatrat.backend.data.entity.VProductivityByUser;
+import com.gmail.tomasatrat.backend.repositories.VProductivityByUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +24,12 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 	public static final String MODIFY_LOCKED_USER_NOT_PERMITTED = "El usuario ha sido bloqueado y no puede ser modificado ni eliminado";
 	private static final String DELETING_SELF_NOT_PERMITTED = "No puedes eliminar tu propia cuenta";
 	private final UserRepository userRepository;
+	private final VProductivityByUserRepository productivityByUserRepository;
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, VProductivityByUserRepository productivityByUserRepository) {
 		this.userRepository = userRepository;
+		this.productivityByUserRepository = productivityByUserRepository;
 	}
 
 	public Page<User> findAnyMatching(Optional<String> filter, Pageable pageable) {
@@ -121,7 +127,18 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 		this.userRepository.delete((User) item);
 	}
 
-	public Integer getProductivityInMinutes() {
-		return 1;
+	public Integer getProductivityInMinutes(Long userId) {
+		List<VProductivityByUser> entity = this.productivityByUserRepository.findByUser(userId);
+		long diff = 0;
+		int totalMinutes = 0;
+		for (int i = 0; i < entity.size(); i++) {
+			diff = diff + (entity.get(i).getEndingDate().getTime() - entity.get(i).getStartingDate().getTime());
+		}
+
+		if (diff != 0) {
+			long auxLong = TimeUnit.MILLISECONDS.toMinutes(diff);
+			totalMinutes = Math.toIntExact(auxLong / entity.size());
+		}
+		return totalMinutes;
 	}
 }
