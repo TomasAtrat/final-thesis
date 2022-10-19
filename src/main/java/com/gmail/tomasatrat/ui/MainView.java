@@ -6,6 +6,7 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
+import com.gmail.tomasatrat.ui.views.carousel.CarouselView;
 import com.gmail.tomasatrat.ui.views.dashboard.DashboardView;
 import com.gmail.tomasatrat.ui.views.expedition.OrderExpeditionView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
@@ -34,7 +35,8 @@ import com.vaadin.flow.server.PWA;
 
 import java.util.Optional;
 
-import static com.gmail.tomasatrat.ui.utils.Constants.*;
+import static com.gmail.tomasatrat.ui.utils.Constants.TITLE_CAROUSEL;
+import static com.gmail.tomasatrat.ui.utils.Constants.TITLE_HOME;
 
 @CssImport(value = "./styles/components/charts.css", themeFor = "vaadin-chart", include = "vaadin-chart-default-theme")
 @CssImport(value = "./styles/components/floating-action-button.css", themeFor = "vaadin-button")

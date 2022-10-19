@@ -1,13 +1,10 @@
 package com.gmail.tomasatrat.backend.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 import com.gmail.tomasatrat.backend.data.entity.Branch;
+import com.gmail.tomasatrat.backend.data.entity.User;
+import com.gmail.tomasatrat.backend.data.entity.VProductivityByUser;
 import com.gmail.tomasatrat.backend.microservices.branch.services.BranchService;
 import com.gmail.tomasatrat.backend.data.entity.VProductivityByUser;
 import com.gmail.tomasatrat.backend.repositories.VProductivityByUserRepository;
@@ -20,6 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.repositories.UserRepository;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class UserService implements FilterableCrudService<User>, ICrudService {
 
@@ -30,9 +31,7 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 	private BranchService branchService;
 
 	@Autowired
-	public UserService(UserRepository userRepository,
-					   BranchService branchService) {
-	public UserService(UserRepository userRepository, VProductivityByUserRepository productivityByUserRepository) {
+	public UserService(UserRepository userRepository, BranchService branchService, VProductivityByUserRepository productivityByUserRepository) {
 		this.userRepository = userRepository;
 		this.productivityByUserRepository = productivityByUserRepository;
 		this.branchService = branchService;
