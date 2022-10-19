@@ -14,6 +14,7 @@ import com.gmail.tomasatrat.ui.views.inventory.InventoryView;
 import com.gmail.tomasatrat.ui.views.orders.OrdersView;
 import com.gmail.tomasatrat.ui.views.readers.ReadersView;
 import com.gmail.tomasatrat.ui.views.reception.ReceptionProblemsView;
+import com.gmail.tomasatrat.ui.views.stock.StockProductView;
 import com.gmail.tomasatrat.ui.views.stock.StockView;
 import com.gmail.tomasatrat.ui.views.tasks.TasksView;
 import com.gmail.tomasatrat.ui.views.users.UsersView;
@@ -33,8 +34,7 @@ import com.vaadin.flow.server.PWA;
 
 import java.util.Optional;
 
-import static com.gmail.tomasatrat.ui.utils.Constants.TITLE_DASHBOARD;
-import static com.gmail.tomasatrat.ui.utils.Constants.TITLE_HOME;
+import static com.gmail.tomasatrat.ui.utils.Constants.*;
 
 @CssImport(value = "./styles/components/charts.css", themeFor = "vaadin-chart", include = "vaadin-chart-default-theme")
 @CssImport(value = "./styles/components/floating-action-button.css", themeFor = "vaadin-button")
@@ -167,6 +167,15 @@ public class MainView extends AppLayout {
         if (SecurityUtils.isAccessGranted(UsersView.class))
             menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
 
+        NaviItem stock = menu.addNaviItem(VaadinIcon.STOCK, "Stock", null);
+
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(stock, "Panel stock", StockView.class);
+
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(stock, "Stock/Producto", StockProductView.class);
+
+        menu.addNaviItem(VaadinIcon.PRESENTATION, TITLE_CAROUSEL, CarouselView.class);
         //region Expedition
 
         NaviItem expedition = menu.addNaviItem(VaadinIcon.TRUCK, "Expedición",

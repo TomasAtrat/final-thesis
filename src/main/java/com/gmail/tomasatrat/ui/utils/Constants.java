@@ -27,11 +27,15 @@ public class Constants {
 	public static final String PAGE_READER = "readers";
 	public static final String PAGE_STOCK = "stock";
 
+	public static final String PAGE_STOCKPRODUCT = "stockproduct";
+
 	public static final String PAGE_INVENTORY_PROBLEMS = "inventory_problems";
 	public static final String PAGE_INVENTORY = "inventory";
 	public static final String PAGE_RECEPTION_PROBLEMS = "reception_problems";
 	public static final String PAGE_ORDER_EXPEDITION = "order_expedition";
 	public static final String PAGE_DASHBOARD = "dashboard";
+
+	public static final String PAGE_CAROUSEL = "carousel";
 
 	public static final String TITLE_HOME = "Home";
 	public static final String TITLE_DASHBOARD = "Dashboard | Smartstore";
@@ -53,8 +57,10 @@ public class Constants {
 	public static final String VIEWPORT = "width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, viewport-fit=cover";
 	public static final String TITLE_STOCK = "Stock";
     public static final String TITLE_INVENTORY = "Inventario";
+	public static final String TITLE_STOCKPRODUCT = "StockProducto";
+	public static final String TITLE_CAROUSEL = "Carrusel";
 
-    // Mutable for testing.
+	// Mutable for testing.
 	public static int NOTIFICATION_DURATION = 4000;
 
 }

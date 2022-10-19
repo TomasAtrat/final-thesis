@@ -63,3 +63,15 @@ vaadin-grid-cell-content {
 vaadin-text-field {
   align-self: auto;
 }
+
+td.stock-product-style-1 {
+    background-color: #ff879b;
+}
+
+td.stock-product-style-2 {
+    background-color: lightgreen;
+}
+
+td.stock-product-style-3 {
+    background-color: yellow;
+}
