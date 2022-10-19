@@ -90,8 +90,13 @@ $_documentContainer.innerHTML = `<dom-module id="bakery-charts-theme" theme-for=
       :host(.product-split-donut) #chart {
         height: 100%;
       }
+      :host(.MultipleAxes) .highcharts-color-2, .y1 {
+          fill: #98df58;
+          stroke: #98df58;
+}
     </style>
   </template>
 </dom-module>`;
+
 
 document.head.appendChild($_documentContainer.content);

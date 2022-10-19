@@ -6,7 +6,7 @@ import com.gmail.tomasatrat.backend.data.entity.*;
 import com.gmail.tomasatrat.backend.microservices.expedition.ExpeditionTypeService;
 import com.gmail.tomasatrat.backend.microservices.orders.services.OrderService;
 import com.gmail.tomasatrat.backend.microservices.product.services.ProductService;
-import com.gmail.tomasatrat.backend.service.BranchService;
+import com.gmail.tomasatrat.backend.microservices.branch.services.BranchService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;

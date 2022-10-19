@@ -6,6 +6,7 @@ import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviMenu;
 import com.gmail.tomasatrat.ui.views.HasConfirmation;
+import com.gmail.tomasatrat.ui.views.dashboard.DashboardView;
 import com.gmail.tomasatrat.ui.views.expedition.OrderExpeditionView;
 import com.gmail.tomasatrat.ui.views.home.HomeView;
 import com.gmail.tomasatrat.ui.views.inventory.InventoryProblemsView;
@@ -177,7 +178,7 @@ public class MainView extends AppLayout {
 
         //endregion
 
-        menu.addNaviItem(VaadinIcon.CHART, TITLE_DASHBOARD, HomeView.class);
+        menu.addNaviItem(VaadinIcon.CHART, "Dashboard", DashboardView.class);
 
         menu.addNaviItem(VaadinIcon.COG, "Configuración", HomeView.class);
 

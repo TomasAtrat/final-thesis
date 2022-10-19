@@ -2,7 +2,7 @@ package com.gmail.tomasatrat.ui.views.home;
 
 import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.Branch;
-import com.gmail.tomasatrat.backend.service.BranchService;
+import com.gmail.tomasatrat.backend.microservices.branch.services.BranchService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;

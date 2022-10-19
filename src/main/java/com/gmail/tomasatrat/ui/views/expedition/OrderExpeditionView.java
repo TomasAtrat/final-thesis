@@ -11,6 +11,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.contextmenu.HasMenuItems;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.menubar.MenuBar;
@@ -43,9 +44,11 @@ public class OrderExpeditionView extends VerticalLayout {
         this.preparationService = preparationService;
         this.expeditionService = expeditionService;
 
+        setAlignItems(Alignment.CENTER);
+
         setupGrid();
 
-        this.add(grid);
+        this.add(new H2("Finalizar pedidos"), grid);
     }
 
     private void setupGrid() {

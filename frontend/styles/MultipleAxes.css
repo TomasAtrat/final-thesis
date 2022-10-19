@@ -1,0 +1,34 @@
+:host(.MultipleAxes) .highcharts-color-0, .y2 {
+    fill: #3090f0;
+    stroke: #3090f0;
+}
+
+:host(.MultipleAxes) .highcharts-color-1, .y3 {
+    fill: #5aaf0f;
+    stroke: #5aaf0f;
+}
+
+:host(.MultipleAxes) .highcharts-color-2, .y1 {
+    fill: #ec6464;
+    stroke: #ec6464;
+}
+
+/* Borders */
+
+ vaadin-board-row > * {
+    border-bottom: 1px solid var(--lumo-contrast-10pct);
+    border-right: 1px solid var(--lumo-contrast-10pct);
+}
+
+ vaadin-board-row.small > * {
+    border-right: none;
+}
+
+ vaadin-board-row.medium > *:nth-child(even),
+ vaadin-board-row.medium > *:only-child {
+    border-right: none;
+}
+
+vaadin-board-row.large > *:last-child {
+    border-right: none;
+}

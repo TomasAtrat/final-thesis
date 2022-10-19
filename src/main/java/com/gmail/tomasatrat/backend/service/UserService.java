@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
+import com.gmail.tomasatrat.backend.data.entity.Branch;
+import com.gmail.tomasatrat.backend.microservices.branch.services.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +22,13 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 	public static final String MODIFY_LOCKED_USER_NOT_PERMITTED = "El usuario ha sido bloqueado y no puede ser modificado ni eliminado";
 	private static final String DELETING_SELF_NOT_PERMITTED = "No puedes eliminar tu propia cuenta";
 	private final UserRepository userRepository;
+	private BranchService branchService;
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository,
+					   BranchService branchService) {
 		this.userRepository = userRepository;
+		this.branchService = branchService;
 	}
 
 	public Page<User> findAnyMatching(Optional<String> filter, Pageable pageable) {
@@ -123,5 +128,10 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 
 	public Integer getProductivityInMinutes() {
 		return 1;
+	}
+
+	public Branch getUserBranchByUsername(String username){
+		User user = findByUsername(username);
+		return branchService.findByID(user.getIdBranch()).get();
 	}
 }
