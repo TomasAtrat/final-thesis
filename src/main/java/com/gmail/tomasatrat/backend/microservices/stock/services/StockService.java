@@ -59,4 +59,8 @@ public class StockService implements ICrudService {
     public Stock findStockByBarcodeAndBranch(Barcode barcode, Branch branch){
         return this.stockRepository.findByBarcodeBarcodeAndBranch(barcode, branch);
     }
+
+    public void update(Stock stock){
+        this.stockRepository.save(stock);
+    }
 }

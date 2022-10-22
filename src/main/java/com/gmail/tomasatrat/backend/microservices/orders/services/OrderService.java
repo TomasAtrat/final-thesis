@@ -6,10 +6,12 @@ import com.gmail.tomasatrat.backend.common.exceptions.SmartStoreException;
 import com.gmail.tomasatrat.backend.data.entity.OrderDetail;
 import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.microservices.orders.components.OrderClient;
+import com.gmail.tomasatrat.backend.microservices.stock.services.StockService;
 import com.gmail.tomasatrat.backend.repositories.BarcodeRepository;
 import com.gmail.tomasatrat.backend.repositories.CustomerRepository;
 import com.gmail.tomasatrat.backend.repositories.OrderDetailRepository;
 import com.gmail.tomasatrat.backend.repositories.OrderInfoRepository;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +26,19 @@ public class OrderService implements ICrudService {
     private OrderDetailRepository orderDetailRepository;
     private CustomerRepository customerRepository;
     private BarcodeRepository barcodeRepository;
+    private StockService stockService;
 
     @Autowired
     public OrderService(OrderInfoRepository orderInfoRepository,
                         OrderDetailRepository orderDetailRepository,
                         CustomerRepository customerRepository,
-                        BarcodeRepository barcodeRepository) {
+                        BarcodeRepository barcodeRepository,
+                        StockService stockService) {
         this.orderInfoRepository = orderInfoRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.customerRepository = customerRepository;
         this.barcodeRepository = barcodeRepository;
+        this.stockService = stockService;
         orderClient = new OrderClient();
     }
 
@@ -72,6 +77,14 @@ public class OrderService implements ICrudService {
         if(!barcodeRepository.existsById(detail.getBarcode().getId()))
             throw new SmartStoreException("No existe el producto específico ingresado");
         orderDetailRepository.save(detail);
+
+        updateStockReservedQty(detail);
+    }
+
+    private void updateStockReservedQty(OrderDetail detail) {
+        var stock = stockService.findStockByBarcodeAndBranch(detail.getBarcode(), detail.getOrderInfo().getBranch());
+        stock.setQtReserve(stock.getQtReserve() + detail.getOrderedQuantity());
+        stockService.update(stock);
     }
 
     public void updateOrder(OrderInfo order){
