@@ -141,8 +141,17 @@ public class MainView extends AppLayout {
 
         //endregion
 
+        //region Stock
+
+        NaviItem stock = menu.addNaviItem(VaadinIcon.STOCK, "Stock", null);
+
         if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(VaadinIcon.STOCK, "Stock", StockView.class);
+            menu.addNaviItem(stock, "Panel stock", StockView.class);
+
+        if (SecurityUtils.isAccessGranted(UsersView.class))
+            menu.addNaviItem(stock, "Monitoreo stock", StockProductView.class);
+
+        //endregion
 
         //region Inventory
 
@@ -169,13 +178,7 @@ public class MainView extends AppLayout {
         if (SecurityUtils.isAccessGranted(UsersView.class))
             menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
 
-        NaviItem stock = menu.addNaviItem(VaadinIcon.STOCK, "Stock", null);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(stock, "Panel stock", StockView.class);
-
-        if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(stock, "Stock/Producto", StockProductView.class);
 
         menu.addNaviItem(VaadinIcon.PRESENTATION, TITLE_CAROUSEL, CarouselView.class);
         //region Expedition

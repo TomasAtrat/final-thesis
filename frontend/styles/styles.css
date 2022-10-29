@@ -64,6 +64,11 @@ vaadin-text-field {
   align-self: auto;
 }
 
+[part="vaadin-avatar"] {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
 td.stock-product-style-1 {
     background-color: #ff879b;
 }

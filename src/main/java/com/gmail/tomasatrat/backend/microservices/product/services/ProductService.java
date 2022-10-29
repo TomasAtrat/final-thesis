@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -29,4 +30,7 @@ public class ProductService {
         return this.barcodeRepository.findByProductCode(product);
     }
 
+    public Product findById(String id){
+        return this.productRepository.findById(id).get();
+    }
 }

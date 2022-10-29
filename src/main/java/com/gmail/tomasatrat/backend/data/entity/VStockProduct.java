@@ -6,54 +6,44 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
+/**
+ * Mapping for DB view
+ */
 @Entity
 @Immutable
 @Table(name = "v_stock_product")
 public class VStockProduct {
-
     @Id
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "qt_stock", nullable = false)
-    private Long qtStock;
-
-    @Column(name = "resupply_quantity", nullable = false)
-    private Integer resupplyQuantity;
-
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
-    public Long getQtStock() {
-        return qtStock;
-    }
+    @Column(name = "qt_stock", nullable = false, precision = 41)
+    private BigDecimal qtStock;
 
-    public void setQtStock(Long qtStock) {
-        this.qtStock = qtStock;
-    }
-
-    public Integer getResupplyQuantity() {
-        return resupplyQuantity;
-    }
-
-    public void setResupplyQuantity(Integer resupplyQuantity) {
-        this.resupplyQuantity = resupplyQuantity;
-    }
+    @Column(name = "resupply_quantity")
+    private Integer resupplyQuantity;
 
     public String getCode() {
         return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public BigDecimal getQtStock() {
+        return qtStock;
+    }
+
+    public Integer getResupplyQuantity() {
+        return resupplyQuantity;
+    }
+
+    protected VStockProduct() {
     }
 }

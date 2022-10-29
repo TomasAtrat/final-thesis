@@ -1,12 +1,10 @@
 package com.gmail.tomasatrat.ui.views.inventory;
 
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.Inventory;
-import com.gmail.tomasatrat.backend.data.entity.InventoryDetail;
-import com.gmail.tomasatrat.backend.data.entity.Stock;
-import com.gmail.tomasatrat.backend.data.entity.User;
+import com.gmail.tomasatrat.backend.data.entity.*;
 import com.gmail.tomasatrat.backend.microservices.barcode.services.BarcodeService;
 import com.gmail.tomasatrat.backend.microservices.inventory.services.InventoryService;
+import com.gmail.tomasatrat.backend.microservices.product.services.ProductService;
 import com.gmail.tomasatrat.backend.microservices.stock.services.StockService;
 import com.gmail.tomasatrat.backend.service.UserService;
 import com.gmail.tomasatrat.ui.MainView;
@@ -19,6 +17,7 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.contextmenu.HasMenuItems;
 import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.crud.*;
+import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -51,6 +50,7 @@ import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_INVENTORY;
 
 @Route(value = PAGE_INVENTORY, layout = MainView.class)
 @PageTitle(Constants.TITLE_INVENTORY)
+@CssImport(value = "./styles/styles.css", themeFor = "vaadin-grid")
 @Secured({Role.EMPLOYEE, Role.ADMIN})
 public class InventoryView extends VerticalLayout {
 
@@ -58,6 +58,7 @@ public class InventoryView extends VerticalLayout {
     private UserService userService;
     private BarcodeService barcodeService;
     private StockService stockService;
+    private ProductService productService;
 
     private Grid<Inventory> grid;
     private Crud<Inventory> crud;
@@ -68,11 +69,16 @@ public class InventoryView extends VerticalLayout {
     private Dialog detailsForm;
 
     @Autowired
-    public InventoryView(InventoryService inventoryService, UserService userService, BarcodeService barcodeService, StockService stockService) {
+    public InventoryView(InventoryService inventoryService,
+                         UserService userService,
+                         BarcodeService barcodeService,
+                         StockService stockService,
+                         ProductService productService) {
         this.inventoryService = inventoryService;
         this.userService = userService;
         this.barcodeService = barcodeService;
         this.stockService = stockService;
+        this.productService = productService;
 
         setAlignItems(Alignment.CENTER);
 
@@ -110,9 +116,10 @@ public class InventoryView extends VerticalLayout {
 
         MenuItem actions = createIconItem(menuBar, VaadinIcon.BULLETS, null, null);
 
-        MenuItem addDetail = createIconItem(actions.getSubMenu(), VaadinIcon.BULLETS, "Detalles", null, true);
-
-        addDetail.addClickListener(e -> openDetailsForm(inventory));
+        if (inventory.getStartingDate() != null) {
+            MenuItem addDetail = createIconItem(actions.getSubMenu(), VaadinIcon.BULLETS, "Detalles", null, true);
+            addDetail.addClickListener(e -> openDetailsForm(inventory));
+        }
     };
 
     private static MenuItem createIconItem(HasMenuItems menu, VaadinIcon iconName, String label, String ariaLabel) {
@@ -157,6 +164,19 @@ public class InventoryView extends VerticalLayout {
         detailGrid.addColumn(detail -> detail.getBarcode().getSize()).setHeader("Tamaño").setAutoWidth(true).setResizable(true);
         detailGrid.addColumn(InventoryDetail::getSupposedQty).setHeader("Cantidad teórica").setAutoWidth(true).setResizable(true);
 
+        detailGrid.setClassNameGenerator(detail -> {
+            boolean hasProblems = !Objects.equals(detail.getReadQty(), detail.getSupposedQty());
+
+            if (!hasProblems) return "stock-product-style-2";
+
+            else if (detail.getReadQty() == 0) return "stock-product-style-1";
+
+            else if (detail.getReadQty() < productService.findById(detail.getBarcode().getProductCode().getId()).getResupplyQuantity())
+                return "stock-product-style-3";
+
+            return "stock-product-style-1";
+        });
+
         detailsForm.add(detailGrid);
         detailsForm.open();
     }
@@ -171,11 +191,12 @@ public class InventoryView extends VerticalLayout {
                 .format("badge %s", hasProblems ? "error" : "success");
         span.getElement().setAttribute("theme", theme);
 
-        if(!hasProblems) span.setText("OK");
+        if (!hasProblems) span.setText("OK");
 
-        else if(detail.getReadQty() < detail.getSupposedQty()) span.setText("QUIEBRE");
+        else if (detail.getReadQty() == 0) span.setText("OUT OF STOCK");
 
-        else if(detail.getReadQty() == 0) span.setText("OUT OF STOCK");
+        else if (detail.getReadQty() < productService.findById(detail.getBarcode().getProductCode().getId()).getResupplyQuantity())
+            span.setText("QUIEBRE");
     };
 
     private void setupCrud() {
@@ -193,7 +214,9 @@ public class InventoryView extends VerticalLayout {
 
         FormLayout form = new FormLayout();
 
-        form.add(description, productListBox, users);
+        form.setWidthFull();
+
+        form.add(description, users, productListBox);
 
         Binder<Inventory> binder = getBinder();
 
@@ -234,6 +257,7 @@ public class InventoryView extends VerticalLayout {
         if (validateFields()) {
             List<Stock> list = new ArrayList<>(barcodes);
             inventoryService.addItem(item, list);
+            Notification.show("El registro ha sido correctamente ingresado", 5000, Notification.Position.BOTTOM_CENTER);
         }
     }
 

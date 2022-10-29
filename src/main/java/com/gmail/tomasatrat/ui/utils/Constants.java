@@ -57,7 +57,7 @@ public class Constants {
 	public static final String VIEWPORT = "width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes, viewport-fit=cover";
 	public static final String TITLE_STOCK = "Stock";
     public static final String TITLE_INVENTORY = "Inventario";
-	public static final String TITLE_STOCKPRODUCT = "StockProducto";
+	public static final String TITLE_STOCKPRODUCT = "Monitoreo stock | Smartstore";
 	public static final String TITLE_CAROUSEL = "Carrusel";
 
 	// Mutable for testing.

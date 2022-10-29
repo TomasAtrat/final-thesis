@@ -40,11 +40,13 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.function.SerializableBiConsumer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 import java.util.Objects;
 
+import static com.gmail.tomasatrat.ui.utils.Constants.NOTIFICATION_DURATION;
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_ORDERS;
 
 @Route(value = PAGE_ORDERS, layout = MainView.class)
@@ -63,7 +65,7 @@ public class OrdersView extends VerticalLayout implements HasLogger {
     private Crud<OrderInfo> crud;
     private Grid<OrderInfo> grid;
     private Dialog detailsForm;
-
+    private Grid<OrderDetail> detailGrid;
 
     private TextField document;
     private TextField firstName;
@@ -205,13 +207,16 @@ public class OrdersView extends VerticalLayout implements HasLogger {
             email.clear();
             phone.clear();
         });
+
         crud.addDeleteListener(e -> dataProvider.delete(e.getItem()));
     }
 
     private OrderInfo saveOrder(OrderInfo item, GenericDataProvider<OrderInfo> dataProvider) {
         try {
             OrderInfo orderInfo = getOrderIfNotBindedFieldsAreValid(item);
-            return (OrderInfo) dataProvider.persist(orderInfo);
+            var order = dataProvider.persist(orderInfo);
+            Notification.show("El pedido ha sido añadido correctamente", 5000, Notification.Position.BOTTOM_CENTER);
+            return (OrderInfo) order;
         } catch (SmartStoreException ex) {
             Notification.show(ex.getMessage(), 5000, Notification.Position.BOTTOM_CENTER);
         }
@@ -242,7 +247,7 @@ public class OrdersView extends VerticalLayout implements HasLogger {
         if (bothContactMeansAreEmpty())
             throw new SmartStoreException("Se necesita especificar al menos un medio de contacto con el cliente");
 
-        if(expeditionTypeIsBOPISNotAcceptsPartialExpedition())
+        if (expeditionTypeIsBOPISNotAcceptsPartialExpedition())
             throw new SmartStoreException("Un pedido de tipo BOPIS no puede aceptar expedición parcial");
 
         if (addressIsEmptyWhenExpeditionTypeIsSend())
@@ -285,10 +290,10 @@ public class OrdersView extends VerticalLayout implements HasLogger {
 
     private void openDetailsForm(OrderInfo order) {
         detailsForm = new Dialog();
-        detailsForm.setSizeFull();
+        detailsForm.setWidthFull();
         detailsForm.getElement().setAttribute("aria-label", "Añadir detalles");
         FormLayout dialogLayout = createDetailsFormLayout();
-        Grid<OrderDetail> detailGrid = new Grid<>();
+        detailGrid = new Grid<>();
 
         detailGrid.setItems(this.orderService.getOrderDetailsByOrder(order));
 
@@ -330,7 +335,7 @@ public class OrdersView extends VerticalLayout implements HasLogger {
         colourField.setEnabled(false);
 
         barcodeComboBox.addValueChangeListener(e -> {
-            if(e.getValue() != null){
+            if (e.getValue() != null) {
                 sizeField.setValue(e.getValue().getSize());
                 colourField.setValue(e.getValue().getColour());
             }
@@ -363,6 +368,10 @@ public class OrdersView extends VerticalLayout implements HasLogger {
             addDetail(order, barcode, orderedQty);
 
             cleanFields();
+
+            Notification.show("Detalle añadido correctamente", 5000, Notification.Position.BOTTOM_CENTER);
+
+            detailGrid.setItems(this.orderService.getOrderDetailsByOrder(order));
         } catch (SmartStoreException ex) {
             Notification.show(ex.getMessage(), 5000, Notification.Position.BOTTOM_CENTER);
         }
