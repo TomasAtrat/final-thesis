@@ -38,7 +38,7 @@ import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_READER;
 
 @Route(value = PAGE_READER, layout = MainView.class)
 @PageTitle(Constants.TITLE_READERS)
-@Secured(Role.ADMIN)
+@Secured(Role.TECHNICIAN)
 public class ReadersView extends VerticalLayout implements HasLogger {
 
     private ReaderService readerService = null;

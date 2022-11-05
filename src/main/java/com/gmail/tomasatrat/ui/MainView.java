@@ -145,10 +145,10 @@ public class MainView extends AppLayout {
 
         NaviItem stock = menu.addNaviItem(VaadinIcon.STOCK, "Stock", null);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class))
+        if (SecurityUtils.isAccessGranted(StockView.class))
             menu.addNaviItem(stock, "Panel stock", StockView.class);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class))
+        if (SecurityUtils.isAccessGranted(StockProductView.class))
             menu.addNaviItem(stock, "Monitoreo stock", StockProductView.class);
 
         //endregion
@@ -157,7 +157,7 @@ public class MainView extends AppLayout {
 
         NaviItem inventory = menu.addNaviItem(VaadinIcon.CLIPBOARD_TEXT, "Inventario",
                 null);
-        if (SecurityUtils.isAccessGranted(UsersView.class)) {
+        if (SecurityUtils.isAccessGranted(InventoryView.class)) {
             menu.addNaviItem(inventory, "Panel de Inventario", InventoryView.class);
             if (SecurityUtils.isAccessGranted(InventoryProblemsView.class))
                 menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
@@ -172,13 +172,8 @@ public class MainView extends AppLayout {
         menu.addNaviItem(orders, "Panel de pedidos", OrdersView.class);
 
         //endregion
-
-        menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
-
-        if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
-
-
+        if (SecurityUtils.isAccessGranted(TasksView.class))
+            menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
 
         menu.addNaviItem(VaadinIcon.PRESENTATION, TITLE_CAROUSEL, CarouselView.class);
         //region Expedition
@@ -186,15 +181,23 @@ public class MainView extends AppLayout {
         NaviItem expedition = menu.addNaviItem(VaadinIcon.TRUCK, "Expedición",
                 null);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class)) {
+        if (SecurityUtils.isAccessGranted(OrderExpeditionView.class)) {
             menu.addNaviItem(expedition, "Finalizar pedidos", OrderExpeditionView.class);
         }
 
         //endregion
+        if (SecurityUtils.isAccessGranted(DashboardView.class))
+            menu.addNaviItem(VaadinIcon.CHART, "Dashboard", DashboardView.class);
 
-        menu.addNaviItem(VaadinIcon.CHART, "Dashboard", DashboardView.class);
+        //region Configuration
 
-        menu.addNaviItem(VaadinIcon.COG, "Configuración", HomeView.class);
+        if (SecurityUtils.isAccessGranted(OrderExpeditionView.class)) {
+            NaviItem configuration = menu.addNaviItem(VaadinIcon.COG, "Configuración",
+                    null);
+
+            menu.addNaviItem(configuration, "RFID", ReadersView.class);
+        }
+        //endregion
 
         return menu;
     }

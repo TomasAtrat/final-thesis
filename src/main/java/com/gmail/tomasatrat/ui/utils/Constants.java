@@ -1,8 +1,8 @@
 package com.gmail.tomasatrat.ui.utils;
 
-import java.util.Locale;
-
 import org.springframework.data.domain.Sort;
+
+import java.util.Locale;
 
 public class Constants {
 

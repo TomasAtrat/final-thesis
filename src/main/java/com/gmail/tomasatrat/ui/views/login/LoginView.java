@@ -14,7 +14,7 @@ import com.vaadin.flow.router.Route;
 import com.gmail.tomasatrat.app.security.SecurityUtils;
 import com.gmail.tomasatrat.ui.utils.Constants;
 
-@Route
+@Route(value = "/login")
 @PageTitle("Smartstore")
 @JsModule("./styles/shared-styles.js")
 @Viewport(Constants.VIEWPORT)

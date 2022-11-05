@@ -2,14 +2,11 @@ package com.gmail.tomasatrat.ui.views.stock;
 
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.Reader;
 import com.gmail.tomasatrat.backend.data.entity.Stock;
-import com.gmail.tomasatrat.backend.microservices.reader.services.ReaderService;
 import com.gmail.tomasatrat.backend.microservices.stock.services.StockService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.crud.*;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -24,7 +21,7 @@ import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_STOCK;
 
 @Route(value = PAGE_STOCK, layout = MainView.class)
 @PageTitle(Constants.TITLE_STOCK)
-@Secured(Role.ADMIN)
+@Secured({Role.ADMIN, Role.EMPLOYEE})
 public class StockView extends VerticalLayout implements HasLogger {
 
     private StockService stockService = null;

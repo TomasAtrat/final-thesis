@@ -26,7 +26,7 @@ import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_STOCKPRODUCT;
 @Route(value = PAGE_STOCKPRODUCT, layout = MainView.class)
 @CssImport(value = "./styles/styles.css", themeFor = "vaadin-grid")
 @PageTitle(Constants.TITLE_STOCKPRODUCT)
-@Secured(Role.ADMIN)
+@Secured({Role.ADMIN, Role.EMPLOYEE})
 public class StockProductView extends VerticalLayout implements HasLogger {
 
     private StockService stockService;
