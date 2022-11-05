@@ -5,6 +5,8 @@ import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.Branch;
 import com.gmail.tomasatrat.backend.data.entity.VProductsSoldByCategory;
 import com.gmail.tomasatrat.backend.data.entity.VProductsSoldByHour;
+import com.gmail.tomasatrat.backend.data.entity.VTop20MostTestedProduct;
+import com.gmail.tomasatrat.backend.microservices.product.services.ProductService;
 import com.gmail.tomasatrat.backend.microservices.purchase.services.PurchaseService;
 import com.gmail.tomasatrat.backend.service.UserService;
 import com.gmail.tomasatrat.ui.MainView;
@@ -14,7 +16,6 @@ import com.vaadin.flow.component.board.Board;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.*;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -27,6 +28,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_DASHBOARD;
 
@@ -40,9 +42,11 @@ public class DashboardView extends VerticalLayout {
 
     private PurchaseService purchaseService;
     private UserService userService;
+    private ProductService productService;
 
     @Autowired
-    public DashboardView(PurchaseService purchaseService, UserService userService) {
+    public DashboardView(PurchaseService purchaseService, UserService userService, ProductService productService) {
+        this.productService = productService;
 
         addClassName("dashboard-view");
 
@@ -57,7 +61,43 @@ public class DashboardView extends VerticalLayout {
 
         board.addRow(createSalesPerHourChart(), createProductsSoldByCategoryChart());
 
+        board.addRow(createTop20MostTestedProducts());
+
         add(new H2("Dashboard gerencial"), board);
+    }
+
+    private Component createTop20MostTestedProducts() {
+        Chart chart = new Chart(ChartType.COLUMN);
+
+        List<VTop20MostTestedProduct> mostTestedProducts = productService.getTop20MostTestedProductsByBranch(branch);
+
+        Configuration conf = chart.getConfiguration();
+
+        conf.setTitle(new Title("Top 20 productos más ingresados al probador"));
+
+        XAxis xAxis = new XAxis();
+
+        xAxis.setCategories(mostTestedProducts.stream().map(e-> e.getProductCode()).toArray(String[]::new));
+
+        conf.addxAxis(xAxis);
+
+        conf.getyAxis().setTitle("Cantidad veces probado");
+
+        PlotOptionsColumn plotOptions = new PlotOptionsColumn();
+        plotOptions.setPointPlacement(PointPlacement.ON);
+
+        conf.addPlotOptions(plotOptions);
+
+        Tooltip tooltip = new Tooltip();
+        tooltip.setFormatter("function() { "
+                + "return ''+ this.x +': '+ this.y +' unidades'}");
+
+        conf.setTooltip(tooltip);
+
+        conf.addSeries(new ListSeries("Sucursal " + branch.getDescription(),
+                mostTestedProducts.stream().map(e-> e.getQtyTested()).toArray(Long[]::new)));
+
+        return chart;
     }
 
     private Component createProductsSoldByCategoryChart() {
@@ -126,22 +166,6 @@ public class DashboardView extends VerticalLayout {
 
         configuration.setTitle("Productos más vendidos por categoría");
         configuration.setSubTitle("Productos / cantidad ventas");
-
-/*
-        XAxis x = new XAxis();
-        x.setCrosshair(new Crosshair());
-        x.setCategories(productsSoldByCategory.stream().map(VProductsSoldByCategory::getCode).toArray(String[]::new));
-        configuration.addxAxis(x);
-
-        YAxis y = new YAxis();
-        y.setMin(0);
-        y.setTitle("Cantidad ventas");
-        configuration.addyAxis(y);
-
-        Tooltip tooltip = new Tooltip();
-        tooltip.setShared(true);
-        configuration.setTooltip(tooltip);
-*/
 
         return chart;
     }

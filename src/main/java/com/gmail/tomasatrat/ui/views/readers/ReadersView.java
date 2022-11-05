@@ -2,14 +2,12 @@ package com.gmail.tomasatrat.ui.views.readers;
 
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.Reader;
 import com.gmail.tomasatrat.backend.data.entity.Module;
-import com.gmail.tomasatrat.backend.data.entity.Task;
+import com.gmail.tomasatrat.backend.data.entity.Reader;
 import com.gmail.tomasatrat.backend.microservices.reader.services.ReaderService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.dataproviders.GenericDataProvider;
 import com.gmail.tomasatrat.ui.utils.Constants;
-import com.gmail.tomasatrat.ui.utils.converters.DateConverter;
 import com.vaadin.componentfactory.ToggleButton;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
@@ -22,7 +20,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -36,10 +33,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.var;
 import org.springframework.security.access.annotation.Secured;
-
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_READER;
 
