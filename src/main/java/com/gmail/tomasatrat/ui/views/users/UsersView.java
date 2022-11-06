@@ -74,28 +74,30 @@ public class UsersView extends VerticalLayout {
     }
 
     private final SerializableBiConsumer<ToggleButton, User> statusComponentUpdater = (toggle, user) -> {
-        toggle.setValue(user.isActive());
-        toggle.addValueChangeListener(i -> {
-            ConfirmDialog dialog = new ConfirmDialog();
-            var header = user.isActive() ? INACTIVATE_USER_PROMPT : ACTIVATE_USER_PROMPT;
-            dialog.setHeader(header);
-            dialog.setText("¿Estás seguro que quieres realizar esta operación?");
+        if(toggle != null && user != null){
+            toggle.setValue(user.isActive());
+            toggle.addValueChangeListener(i -> {
+                ConfirmDialog dialog = new ConfirmDialog();
+                var header = user.isActive() ? INACTIVATE_USER_PROMPT : ACTIVATE_USER_PROMPT;
+                dialog.setHeader(header);
+                dialog.setText("¿Estás seguro que quieres realizar esta operación?");
 
-            dialog.setCancelable(true);
-            dialog.addCancelListener(event -> {
-                dialog.close();
+                dialog.setCancelable(true);
+                dialog.addCancelListener(event -> {
+                    dialog.close();
+                });
+
+                dialog.setConfirmText("Guardar");
+                dialog.addConfirmListener(event -> {
+                    userService.toggleStatus(user, toggle.getValue());
+                    grid.setItems(userService.findAll());
+                    dialog.close();
+                    Notification.show("Se han guardado los cambios", 5000, Notification.Position.BOTTOM_CENTER);
+                });
+
+                dialog.open();
             });
-
-            dialog.setConfirmText("Guardar");
-            dialog.addConfirmListener(event -> {
-                userService.toggleStatus(user, toggle.getValue());
-                grid.setItems(userService.findAll());
-                dialog.close();
-                Notification.show("Se han guardado los cambios", 5000, Notification.Position.BOTTOM_CENTER);
-            });
-
-            dialog.open();
-        });
+        }
     };
 
 

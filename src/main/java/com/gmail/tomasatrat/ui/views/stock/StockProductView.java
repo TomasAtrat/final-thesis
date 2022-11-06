@@ -73,7 +73,7 @@ public class StockProductView extends VerticalLayout implements HasLogger {
 
     private final SerializableBiConsumer<Span, VStockProduct> detailStatusIndicator = (span, stockProduct) -> {
 
-        boolean hasProblems = !(stockProduct.getQtStock().intValue() >= stockProduct.getResupplyQuantity()) && stockProduct.getQtStock().intValue() == 0;
+        boolean hasProblems = stockProduct.getQtStock().intValue() == 0 || stockProduct.getQtStock().intValue() < stockProduct.getResupplyQuantity();
 
         String theme = String
                 .format("badge %s", hasProblems ? "error" : "success");

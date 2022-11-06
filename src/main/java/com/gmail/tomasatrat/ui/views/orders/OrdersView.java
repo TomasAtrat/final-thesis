@@ -2,6 +2,7 @@ package com.gmail.tomasatrat.ui.views.orders;
 
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.common.exceptions.SmartStoreException;
+import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.*;
 import com.gmail.tomasatrat.backend.microservices.branch.services.BranchService;
 import com.gmail.tomasatrat.backend.microservices.expedition.ExpeditionTypeService;
@@ -42,6 +43,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.Date;
 import java.util.Objects;
@@ -50,6 +52,7 @@ import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_ORDERS;
 
 @Route(value = PAGE_ORDERS, layout = MainView.class)
 @PageTitle(Constants.TITLE_ORDERS)
+@Secured({Role.ADMIN, Role.EMPLOYEE})
 public class OrdersView extends VerticalLayout implements HasLogger {
     //region Services
     private final OrderService orderService;

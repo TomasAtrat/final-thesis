@@ -1,6 +1,7 @@
 package com.gmail.tomasatrat.ui.views.tasks;
 
 import com.gmail.tomasatrat.app.HasLogger;
+import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.Task;
 import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.microservices.tasks.services.TaskService;
@@ -28,14 +29,13 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.security.access.annotation.Secured;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_TASKS;
 
 @Route(value = PAGE_TASKS, layout = MainView.class)
 @PageTitle(Constants.TITLE_TASKS)
+@Secured({Role.EMPLOYEE, Role.ADMIN})
 public class TasksView extends VerticalLayout implements HasLogger {
 
     private final TaskService taskService;

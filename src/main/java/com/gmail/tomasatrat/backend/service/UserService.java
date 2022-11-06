@@ -1,5 +1,6 @@
 package com.gmail.tomasatrat.backend.service;
 
+import com.gmail.tomasatrat.app.security.SecurityUtils;
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
 import com.gmail.tomasatrat.backend.data.entity.Branch;
@@ -119,6 +120,10 @@ public class UserService implements FilterableCrudService<User>, ICrudService {
 
 	@Override
 	public IDataEntity addItem(IDataEntity item) {
+		User user = (User) item;
+		user.setIdBranch(userRepository.findByUsername(SecurityUtils.getUsername()).getIdBranch());
+		user.setActive(true);
+
 		return this.userRepository.save((User) item);
 	}
 

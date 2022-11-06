@@ -52,6 +52,7 @@ public class StockView extends VerticalLayout implements HasLogger {
         grid.addColumn(stock -> stock.getBarcodeBarcode().getSize()).setHeader("Talle").setAutoWidth(true).setResizable(true);
         grid.addColumn(Stock::getQtStock).setHeader("Cantidad stock").setAutoWidth(true).setResizable(true);
         grid.addColumn(Stock::getQtReserve).setHeader("Cantidad reserva").setAutoWidth(true).setResizable(true);
+        grid.addColumn(stock-> stock.getQtStock() - stock.getQtReserve()).setHeader("Stock real").setAutoWidth(true).setResizable(true);
         grid.addColumn(Stock::getAddDate).setHeader("Fecha de alta").setAutoWidth(true).setResizable(true);
         grid.addColumn(Stock::getUpdateDate).setHeader("Fecha de modificación").setAutoWidth(true).setResizable(true);
     }

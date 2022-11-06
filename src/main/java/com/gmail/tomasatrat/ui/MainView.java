@@ -133,12 +133,12 @@ public class MainView extends AppLayout {
         //endregion
 
         //region Reception
+        if (SecurityUtils.isAccessGranted(ReceptionProblemsView.class)) {
+            NaviItem reception = menu.addNaviItem(VaadinIcon.CLIPBOARD_CHECK, "Recepción",
+                    null);
 
-        NaviItem reception = menu.addNaviItem(VaadinIcon.CLIPBOARD_CHECK, "Recepción",
-                null);
-        if (SecurityUtils.isAccessGranted(ReceptionProblemsView.class))
             menu.addNaviItem(reception, "Problemas sin aceptar", ReceptionProblemsView.class);
-
+        }
         //endregion
 
         //region Stock
@@ -175,13 +175,14 @@ public class MainView extends AppLayout {
         if (SecurityUtils.isAccessGranted(TasksView.class))
             menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
 
-        menu.addNaviItem(VaadinIcon.PRESENTATION, TITLE_CAROUSEL, CarouselView.class);
+        if (SecurityUtils.isAccessGranted(CarouselView.class))
+            menu.addNaviItem(VaadinIcon.PRESENTATION, TITLE_CAROUSEL, CarouselView.class);
         //region Expedition
 
-        NaviItem expedition = menu.addNaviItem(VaadinIcon.TRUCK, "Expedición",
-                null);
-
         if (SecurityUtils.isAccessGranted(OrderExpeditionView.class)) {
+            NaviItem expedition = menu.addNaviItem(VaadinIcon.TRUCK, "Expedición",
+                    null);
+
             menu.addNaviItem(expedition, "Finalizar pedidos", OrderExpeditionView.class);
         }
 
@@ -191,7 +192,7 @@ public class MainView extends AppLayout {
 
         //region Configuration
 
-        if (SecurityUtils.isAccessGranted(OrderExpeditionView.class)) {
+        if (SecurityUtils.isAccessGranted(ReadersView.class)) {
             NaviItem configuration = menu.addNaviItem(VaadinIcon.COG, "Configuración",
                     null);
 
