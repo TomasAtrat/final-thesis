@@ -1,6 +1,8 @@
 package com.gmail.tomasatrat.ui;
 
 import com.gmail.tomasatrat.app.security.SecurityUtils;
+import com.gmail.tomasatrat.backend.data.entity.Config;
+import com.gmail.tomasatrat.backend.microservices.main.services.ConfigServices;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.BrandExpression;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviDrawer;
 import com.gmail.tomasatrat.ui.components.navigation.drawer.NaviItem;
@@ -33,6 +35,7 @@ import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.TITLE_CAROUSEL;
@@ -61,10 +64,14 @@ public class MainView extends AppLayout {
 
     private final ConfirmDialog confirmDialog = new ConfirmDialog();
 
+    private final ConfigServices configServices;
+    private List<Config> configList = null;
+
     private static NaviDrawer naviDrawer;
     private static NaviMenu menu;
 
-    public MainView() {
+    public MainView(ConfigServices configServices) {
+        this.configServices = configServices;
         naviDrawer = new NaviDrawer();
         confirmDialog.setCancelable(true);
         confirmDialog.setConfirmButtonTheme("raised tertiary error");
@@ -117,10 +124,12 @@ public class MainView extends AppLayout {
         }
     }
 
-    private static NaviMenu createMenu() {
+    private NaviMenu createMenu() {
+        this.configList = this.configServices.findAll();
+
         menu = naviDrawer.getMenu();
 
-        menu.addNaviItem(VaadinIcon.HOME, TITLE_HOME, HomeView.class);
+        tryAddNaviItem(VaadinIcon.HOME, TITLE_HOME, HomeView.class);
 
         //region Register
 
@@ -128,36 +137,36 @@ public class MainView extends AppLayout {
                 null);*/
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(VaadinIcon.USER, "Usuarios", UsersView.class);
+            tryAddNaviItem(VaadinIcon.USER, "Usuarios", UsersView.class);
 
         //endregion
 
         //region Reception
 
-        NaviItem reception = menu.addNaviItem(VaadinIcon.CLIPBOARD_CHECK, "Recepción",
+        NaviItem reception = tryAddNaviItem(VaadinIcon.CLIPBOARD_CHECK, "Recepción",
                 null);
-        if (SecurityUtils.isAccessGranted(ReceptionProblemsView.class))
+        if (SecurityUtils.isAccessGranted(ReceptionProblemsView.class) && reception != null)
             menu.addNaviItem(reception, "Problemas sin aceptar", ReceptionProblemsView.class);
 
         //endregion
 
         //region Stock
 
-        NaviItem stock = menu.addNaviItem(VaadinIcon.STOCK, "Stock", null);
+        NaviItem stock = tryAddNaviItem(VaadinIcon.STOCK, "Stock", null);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class))
+        if (SecurityUtils.isAccessGranted(UsersView.class) && stock != null)
             menu.addNaviItem(stock, "Panel stock", StockView.class);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class))
+        if (SecurityUtils.isAccessGranted(UsersView.class) && stock != null)
             menu.addNaviItem(stock, "Monitoreo stock", StockProductView.class);
 
         //endregion
 
         //region Inventory
 
-        NaviItem inventory = menu.addNaviItem(VaadinIcon.CLIPBOARD_TEXT, "Inventario",
+        NaviItem inventory = tryAddNaviItem(VaadinIcon.CLIPBOARD_TEXT, "Inventario",
                 null);
-        if (SecurityUtils.isAccessGranted(UsersView.class)) {
+        if (SecurityUtils.isAccessGranted(UsersView.class) && inventory != null) {
             menu.addNaviItem(inventory, "Panel de Inventario", InventoryView.class);
             if (SecurityUtils.isAccessGranted(InventoryProblemsView.class))
                 menu.addNaviItem(inventory, "Problemas sin aceptar", InventoryProblemsView.class);
@@ -166,36 +175,49 @@ public class MainView extends AppLayout {
         //endregion
 
         //region Orders
-        NaviItem orders = menu.addNaviItem(VaadinIcon.PACKAGE, "Pedidos",
+        NaviItem orders = tryAddNaviItem(VaadinIcon.PACKAGE, "Pedidos",
                 null);
 
-        menu.addNaviItem(orders, "Panel de pedidos", OrdersView.class);
+        if (orders != null) {
+            menu.addNaviItem(orders, "Panel de pedidos", OrdersView.class);
+        }
 
         //endregion
 
-        menu.addNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
+        tryAddNaviItem(VaadinIcon.EDIT, "Tareas", TasksView.class);
 
         if (SecurityUtils.isAccessGranted(UsersView.class))
-            menu.addNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
+            tryAddNaviItem(VaadinIcon.AUTOMATION, "RFID", ReadersView.class);
 
-
-
-        menu.addNaviItem(VaadinIcon.PRESENTATION, TITLE_CAROUSEL, CarouselView.class);
+        tryAddNaviItem(VaadinIcon.PRESENTATION, TITLE_CAROUSEL, CarouselView.class);
         //region Expedition
 
-        NaviItem expedition = menu.addNaviItem(VaadinIcon.TRUCK, "Expedición",
+        NaviItem expedition = tryAddNaviItem(VaadinIcon.TRUCK, "Expedición",
                 null);
 
-        if (SecurityUtils.isAccessGranted(UsersView.class)) {
+        if (SecurityUtils.isAccessGranted(UsersView.class) && expedition != null) {
             menu.addNaviItem(expedition, "Finalizar pedidos", OrderExpeditionView.class);
         }
 
         //endregion
 
-        menu.addNaviItem(VaadinIcon.CHART, "Dashboard", DashboardView.class);
+        tryAddNaviItem(VaadinIcon.CHART, "Dashboard", DashboardView.class);
 
-        menu.addNaviItem(VaadinIcon.COG, "Configuración", HomeView.class);
+        tryAddNaviItem(VaadinIcon.COG, "Configuración", HomeView.class);
 
         return menu;
+    }
+
+    private NaviItem tryAddNaviItem(VaadinIcon icon, String text, Class<? extends Component> viewClass) {
+        NaviItem result = null;
+        if (configList != null) {
+            for (Config config : configList) {
+                if (config.getModuleToShow().equals(text)) {
+                    result = menu.addNaviItem(icon, text, viewClass);
+                }
+            }
+        }
+
+        return result;
     }
 }
