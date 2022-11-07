@@ -68,14 +68,21 @@ public class OrderService implements ICrudService {
     }
 
     public List<OrderDetail> getOrderDetailsByOrder(OrderInfo order) {
-       return orderDetailRepository.findByOrderInfo(order);
+        return orderDetailRepository.findByOrderInfo(order);
     }
 
     public void addDetail(OrderDetail detail) throws SmartStoreException {
-        if(!orderInfoRepository.existsById(detail.getOrderInfo().getId()))
+        if (!orderInfoRepository.existsById(detail.getOrderInfo().getId()))
             throw new SmartStoreException("No existe el pedido para el detalle de pedido");
-        if(!barcodeRepository.existsById(detail.getBarcode().getId()))
+
+        if (!barcodeRepository.existsById(detail.getBarcode().getId()))
             throw new SmartStoreException("No existe el producto específico ingresado");
+
+        var stock = stockService.findStockByBarcodeAndBranch(detail.getBarcode(), detail.getOrderInfo().getBranch());
+
+        if (stock == null || (stock.getQtStock() - stock.getQtReserve()) > detail.getOrderedQuantity())
+            throw new SmartStoreException("La cantidad en stock es insuficiente para cubrir la cantidad especificada");
+
         orderDetailRepository.save(detail);
 
         updateStockReservedQty(detail);
@@ -87,7 +94,7 @@ public class OrderService implements ICrudService {
         stockService.update(stock);
     }
 
-    public void updateOrder(OrderInfo order){
+    public void updateOrder(OrderInfo order) {
         this.orderInfoRepository.save(order);
     }
 }

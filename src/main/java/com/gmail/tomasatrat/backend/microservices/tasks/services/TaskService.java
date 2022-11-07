@@ -3,21 +3,19 @@ package com.gmail.tomasatrat.backend.microservices.tasks.services;
 import com.gmail.tomasatrat.app.security.SecurityUtils;
 import com.gmail.tomasatrat.backend.common.ICrudService;
 import com.gmail.tomasatrat.backend.common.IDataEntity;
-import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
+import com.gmail.tomasatrat.backend.common.enums.PriorityEnum;
 import com.gmail.tomasatrat.backend.data.entity.Task;
 import com.gmail.tomasatrat.backend.data.entity.User;
 import com.gmail.tomasatrat.backend.data.entity.VTasksByUser;
-import com.gmail.tomasatrat.backend.microservices.orders.components.OrderClient;
 import com.gmail.tomasatrat.backend.microservices.tasks.components.TaskClient;
-import com.gmail.tomasatrat.backend.repositories.OrderInfoRepository;
 import com.gmail.tomasatrat.backend.repositories.TaskRepository;
 import com.gmail.tomasatrat.backend.repositories.UserRepository;
 import com.gmail.tomasatrat.backend.repositories.VTasksByUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +41,7 @@ public class TaskService implements ICrudService {
         User user = this.userRepository.findByUsername(username);
         List<Task> allTask = this.taskRepository.findAll();
         if (user.getRole().equals("admin")) {
+            allTask.sort(Comparator.comparing(o -> PriorityEnum.getPriorityByStringValue(o.getPriority())));
             return allTask;
         } else {
             List<Task> allTaskByUserId = new ArrayList<>();
@@ -51,6 +50,7 @@ public class TaskService implements ICrudService {
                     allTaskByUserId.add(task);
                 }
             }
+            allTaskByUserId.sort(Comparator.comparing(o -> PriorityEnum.getPriorityByStringValue(o.getPriority())));
             return allTaskByUserId;
         }
     }

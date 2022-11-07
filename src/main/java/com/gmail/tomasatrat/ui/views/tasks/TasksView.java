@@ -1,6 +1,7 @@
 package com.gmail.tomasatrat.ui.views.tasks;
 
 import com.gmail.tomasatrat.app.HasLogger;
+import com.gmail.tomasatrat.backend.common.enums.PriorityEnum;
 import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.Task;
 import com.gmail.tomasatrat.backend.data.entity.User;
@@ -30,6 +31,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_TASKS;
 
@@ -43,6 +46,7 @@ public class TasksView extends VerticalLayout implements HasLogger {
     private final UserService userService;
 
     private Grid<Task> grid;
+
     private Crud<Task> crud;
 
     private TextField title;
@@ -69,7 +73,12 @@ public class TasksView extends VerticalLayout implements HasLogger {
 
         this.add(crud);
 
-        this.add(new H2("Panel de tareas"), newItemButton, crud);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth.getAuthorities().stream().anyMatch(i -> i.getAuthority().equals("admin")))
+            this.add(new H2("Panel de tareas"), newItemButton, crud);
+        else
+            this.add(new H2("Panel de tareas"), crud);
     }
 
     private void setupGrid() {
@@ -189,6 +198,10 @@ public class TasksView extends VerticalLayout implements HasLogger {
 
         FormLayout form = new FormLayout();
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().stream().anyMatch(i -> i.getAuthority().equals("Empleado")))
+            users.setEnabled(false);
+
         form.add(title, description, category, priority, state, users);
 
         Binder<Task> binder = getBinder();
@@ -212,8 +225,8 @@ public class TasksView extends VerticalLayout implements HasLogger {
         title = new TextField("Título");
         description = new TextField("Descripción");
         category = new Select<>("SALÓN", "DEPÓSITO", "OTROS");
-        category.setLabel("Categría");
-        priority = new Select<>("ALTA", "MEDIA", "BAJA");
+        category.setLabel("Categoría");
+        priority = new Select<>(PriorityEnum.getPriorities());
         priority.setLabel("Prioridad");
         state = new Select<>("COMPLETADA", "EN PROCESO", "CANCELADA", "PENDIENTE");
         state.setLabel("Estado");
@@ -222,5 +235,4 @@ public class TasksView extends VerticalLayout implements HasLogger {
         users.setItemLabelGenerator(user ->
                 user.getId() + " - " + user.getUsername());
     }
-
 }
