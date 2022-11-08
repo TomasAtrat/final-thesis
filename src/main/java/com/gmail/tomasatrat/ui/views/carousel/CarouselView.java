@@ -5,36 +5,24 @@ import com.flowingcode.vaadin.addons.carousel.Slide;
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.Role;
 import com.gmail.tomasatrat.backend.data.entity.CarouselImages;
-import com.gmail.tomasatrat.backend.data.entity.OrderDetail;
-import com.gmail.tomasatrat.backend.data.entity.OrderInfo;
 import com.gmail.tomasatrat.backend.microservices.carosuel.services.CarouselService;
 import com.gmail.tomasatrat.ui.MainView;
 import com.gmail.tomasatrat.ui.utils.Constants;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.board.Board;
-import com.vaadin.flow.component.board.Row;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.UploadI18N;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.security.access.annotation.Secured;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +45,7 @@ public class CarouselView extends VerticalLayout implements HasLogger {
         Upload dropEnabledUpload = new Upload(buffer);
         dropEnabledUpload.setDropAllowed(true);
 
-        Label dropEnabledLabel = new Label("Nueva imágen");
+        Label dropEnabledLabel = new Label("Nueva imagen");
         dropEnabledLabel.getStyle().set("font-weight", "600");
         dropEnabledUpload.setId("upload-drop-enabled");
         dropEnabledLabel.setFor(dropEnabledUpload.getId().get());
@@ -96,24 +84,12 @@ public class CarouselView extends VerticalLayout implements HasLogger {
             }
         });
 
-        Paragraph hint = new Paragraph("Formato acpetado: JPG (.jpg)");
+        Paragraph hint = new Paragraph("Formato acepetado: JPG (.jpg)");
         hint.getStyle().set("color", "var(--lumo-secondary-text-color)");
 
         Div Section = new Div(dropEnabledLabel, hint, dropEnabledUpload);
 
         setAlignItems(Alignment.CENTER);
-
-        /*
-        grid.addColumn(
-                TemplateRenderer
-                        .<CarouselImages>of(
-                                "<div><img style='height: 300px; width: 300px;' src='[[item.image]]' alt='[[item.id]]'/></div>"
-                        )
-                        .withProperty("image", item -> getImageAsBase64(item.getImage()))
-                        .withProperty("id", item -> item.getId())
-        ).setHeader("Imágen");
-        grid.setItems(carouselService.findAll());
-         */
 
         List<CarouselImages> imgList = carouselService.findAll();
         List<Slide> slides = new ArrayList<>();

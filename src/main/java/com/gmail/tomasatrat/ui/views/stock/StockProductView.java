@@ -2,8 +2,6 @@ package com.gmail.tomasatrat.ui.views.stock;
 
 import com.gmail.tomasatrat.app.HasLogger;
 import com.gmail.tomasatrat.backend.data.Role;
-import com.gmail.tomasatrat.backend.data.entity.InventoryDetail;
-import com.gmail.tomasatrat.backend.data.entity.Stock;
 import com.gmail.tomasatrat.backend.data.entity.VStockProduct;
 import com.gmail.tomasatrat.backend.microservices.stock.services.StockService;
 import com.gmail.tomasatrat.ui.MainView;
@@ -18,8 +16,6 @@ import com.vaadin.flow.function.SerializableBiConsumer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.security.access.annotation.Secured;
-
-import java.util.Objects;
 
 import static com.gmail.tomasatrat.ui.utils.Constants.PAGE_STOCKPRODUCT;
 
@@ -49,7 +45,7 @@ public class StockProductView extends VerticalLayout implements HasLogger {
         grid.addColumn(createDetailStatusIndicator()).setHeader("Estado").setAutoWidth(true).setResizable(true);
         grid.addColumn(VStockProduct::getCode).setHeader("Código producto").setAutoWidth(true);
         grid.addColumn(VStockProduct::getDescription).setHeader("Descripción").setAutoWidth(true);
-        grid.addColumn(VStockProduct::getQtStock).setHeader("Cantidad de stock").setAutoWidth(true);
+        grid.addColumn(VStockProduct::getQtStock).setHeader("Cantidad total").setAutoWidth(true);
         grid.addColumn(VStockProduct::getResupplyQuantity).setHeader("Quiebre de stock").setAutoWidth(true);
 
         grid.setItems(stockService.getAllStockProduct());
