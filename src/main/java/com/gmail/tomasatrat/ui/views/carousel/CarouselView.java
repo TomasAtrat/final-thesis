@@ -84,7 +84,7 @@ public class CarouselView extends VerticalLayout implements HasLogger {
             }
         });
 
-        Paragraph hint = new Paragraph("Formato acepetado: JPG (.jpg)");
+        Paragraph hint = new Paragraph("Formato aceptado: JPG (.jpg)");
         hint.getStyle().set("color", "var(--lumo-secondary-text-color)");
 
         Div Section = new Div(dropEnabledLabel, hint, dropEnabledUpload);
