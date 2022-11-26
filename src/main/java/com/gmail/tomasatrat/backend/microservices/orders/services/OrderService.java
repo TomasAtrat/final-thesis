@@ -11,7 +11,6 @@ import com.gmail.tomasatrat.backend.repositories.BarcodeRepository;
 import com.gmail.tomasatrat.backend.repositories.CustomerRepository;
 import com.gmail.tomasatrat.backend.repositories.OrderDetailRepository;
 import com.gmail.tomasatrat.backend.repositories.OrderInfoRepository;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

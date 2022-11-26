@@ -7,7 +7,6 @@ import com.gmail.tomasatrat.backend.data.entity.Stock;
 import com.gmail.tomasatrat.backend.repositories.InventoryDetailRepository;
 import com.gmail.tomasatrat.backend.repositories.InventoryProblemRepository;
 import com.gmail.tomasatrat.backend.repositories.StockRepository;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

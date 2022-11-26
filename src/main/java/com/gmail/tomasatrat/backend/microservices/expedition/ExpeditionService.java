@@ -5,7 +5,6 @@ import com.gmail.tomasatrat.backend.data.entity.Preparation;
 import com.gmail.tomasatrat.backend.microservices.orders.services.OrderService;
 import com.gmail.tomasatrat.backend.microservices.preparation.services.PreparationService;
 import com.gmail.tomasatrat.backend.microservices.stock.services.StockService;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

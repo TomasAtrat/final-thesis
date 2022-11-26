@@ -24,7 +24,6 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.function.SerializableBiConsumer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,7 +64,7 @@ public class UsersView extends VerticalLayout {
     private void setupGrid() {
         grid = new Grid<>();
         grid.setColumnReorderingAllowed(true);
-        grid.addColumn(User::getEmail).setAutoWidth(true).setHeader("Nombre usuario").setResizable(true);
+        grid.addColumn(User::getUsername).setAutoWidth(true).setHeader("Nombre usuario").setResizable(true);
         grid.addColumn(User::getEmail).setAutoWidth(true).setHeader("Email").setResizable(true);
         grid.addColumn(u -> u.getFirstName() + " " + u.getLastName()).setHeader("Nombre").setAutoWidth(true).setResizable(true);
         grid.addColumn(User::getRole).setHeader("Rol").setAutoWidth(true);
